@@ -475,12 +475,10 @@
 
     <!-- 
         =====================================================================
-        ====== অ্যাড নেটওয়ার্কের SDK বসানোর জায়গা (প্রথম অংশ) ======
+        ====== অ্যাড নেটওয়ার্কের নতুন SDK বসানো হয়েছে ======
         =====================================================================
-        এখানে আপনার পছন্দের অ্যাড নেটওয়ার্কের দেওয়া <script> ট্যাগটি বসাতে হবে।
-        নিচের লাইনটি একটি উদাহরণ মাত্র। আপনি এটিকে পরিবর্তন করে আপনার নিজের কোড বসাবেন।
     -->
-    <script src='//libtl.com/sdk.js' data-zone='9702412' data-sdk='show_9702412'></script>
+    <script src='//libtl.com/sdk.js' data-zone='10309370' data-sdk='show_10309370'></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -521,11 +519,7 @@
                     document.getElementById('profile-user-name').textContent = fullName || 'User';
                     document.getElementById('profile-user-username').textContent = userData.username ? `@${userData.username}` : 'No username';
                     
-                    // ======================================================================
-                    // ====== প্রোফাইল ছবি দেখানোর কোড (CORS সমস্যার সমাধানসহ) ======
-                    // ======================================================================
                     if (userData.photo_url) {
-                        // টেলিগ্রামের CORS পলিসি এড়ানোর জন্য একটি প্রক্সি ব্যবহার করা হয়েছে।
                         const proxyUrl = 'https://api.allorigins.win/raw?url=';
                         const proxiedPhotoUrl = `${proxyUrl}${encodeURIComponent(userData.photo_url)}`;
                         
@@ -590,13 +584,12 @@
 
                 watchAdBtn.disabled = true;
 
-                // --- অ্যাড নেটওয়ার্কের কোড কল করার জায়গা (দ্বিতীয় অংশ) ---
                 // ======================================================================
-                // এখানে আপনার অ্যাড নেটওয়ার্কের দেওয়া ফাংশনটি কল করতে হবে।
-                // নিচের 'show_9702412()' লাইনটি একটি উদাহরণ।
+                // নতুন অ্যাড নেটওয়ার্ক কোড (Rewarded Popup)
                 // ======================================================================
-                if (typeof show_9702412 === 'function') {
-                    show_9702412().then(() => {
+                if (typeof show_10309370 === 'function') {
+                    show_10309370('pop').then(() => {
+                        // ইউজার সফলভাবে অ্যাড দেখেছে
                         let earnings = parseFloat(localStorage.getItem('earnings')) + AD_REWARD;
                         let currentAdsWatched = parseInt(localStorage.getItem('adsWatched')) + 1;
                         
@@ -604,13 +597,16 @@
                         localStorage.setItem('adsWatched', currentAdsWatched.toString());
                         
                         tg.showAlert(`বিজ্ঞাপনটি দেখার জন্য আপনি BDT ${AD_REWARD.toFixed(2)} পেয়েছেন!`);
-                    }).catch(() => {
-                        tg.showAlert('বিজ্ঞাপনটি দেখাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
-                    }).finally(() => {
                         updateUI();
+                    }).catch(e => {
+                        // অ্যাড দেখতে কোনো সমস্যা হলে
+                        console.error(e);
+                        tg.showAlert('বিজ্ঞাপনটি দেখাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+                        updateUI(); // বাটন আবার সচল করার জন্য
                     });
                 } else {
-                    // Fallback for testing in browser without Telegram
+                    // Fallback for testing without SDK loaded
+                    console.log('SDK not loaded, fallback mode');
                     let earnings = parseFloat(localStorage.getItem('earnings')) + AD_REWARD;
                     let currentAdsWatched = parseInt(localStorage.getItem('adsWatched')) + 1;
                     localStorage.setItem('earnings', earnings.toString());
