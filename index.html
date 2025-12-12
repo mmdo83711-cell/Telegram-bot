@@ -1,3 +1,5 @@
+<!-- START OF FILE index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,7 +99,7 @@
             justify-content: center;
         }
         
-        .card-header .material-icons, .card-header .fa-solid {
+        .card-header .material-icons, .card-header .fa-solid, .card-header .fa-brands {
             margin-right: 8px;
             color: var(--primary-color);
         }
@@ -160,9 +162,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-decoration: none; /* For link buttons */
+            box-sizing: border-box;
         }
         
-        .primary-btn .material-icons, .secondary-btn .material-icons {
+        .primary-btn .material-icons, .secondary-btn .material-icons, .secondary-btn .fa-brands {
             font-size: 20px;
         }
 
@@ -335,7 +339,8 @@
                         <span class="material-icons">account_balance_wallet</span>
                         My Balance
                     </h2>
-                    <div class="balance" id="current-balance">BDT 0.00</div>
+                    <!-- আপডেটেড ব্যালেন্স -->
+                    <div class="balance" id="current-balance">BDT 494.00</div>
                     <button class="primary-btn" id="start-earning-btn">
                         Start Earning Now <span class="material-icons">arrow_forward</span>
                     </button>
@@ -346,7 +351,8 @@
                 <div class="dashboard-grid">
                     <div class="dashboard-item">
                         <span class="material-icons" style="color: var(--secondary-color);">attach_money</span>
-                        <div class="dashboard-item-value" id="total-earnings">BDT 0.00</div>
+                        <!-- আপডেটেড ব্যালেন্স -->
+                        <div class="dashboard-item-value" id="total-earnings">BDT 494.00</div>
                         <div class="dashboard-item-label">Total Earnings</div>
                     </div>
                     <div class="dashboard-item">
@@ -365,6 +371,7 @@
             </section>
 
             <section id="earn-page" class="page">
+                <!-- Watch Ad Card -->
                 <div class="card">
                     <h2 class="card-header">
                         <span class="material-icons">monetization_on</span>
@@ -382,6 +389,27 @@
                         <span class="material-icons">play_circle_filled</span>
                     </button>
                 </div>
+
+                <!-- Telegram Community Card -->
+                <div class="card">
+                    <h2 class="card-header">
+                        <span class="fa-brands fa-telegram" style="color: #0088cc;"></span>
+                        Join Community
+                    </h2>
+                    <p style="font-size: 14px; color: var(--light-text-color); margin-bottom: 15px;">
+                        Join our channels for updates and payment proofs!
+                    </p>
+                    
+                    <a href="https://t.me/earnfree0t" target="_blank" class="secondary-btn" style="margin-top: 10px; width: 100%;">
+                        <span class="fa-brands fa-telegram" style="color: #0088cc;"></span>
+                        Join Telegram Group
+                    </a>
+                    
+                    <a href="https://t.me/AiPixPrompt" target="_blank" class="secondary-btn" style="margin-top: 10px; width: 100%;">
+                        <span class="fa-brands fa-telegram" style="color: #0088cc;"></span>
+                        Join Telegram Channel
+                    </a>
+                </div>
             </section>
             
             <section id="withdraw-page" class="page">
@@ -390,7 +418,8 @@
                         <span class="material-icons">currency_exchange</span>
                         Withdraw Your Earnings
                     </h2>
-                    <div class="balance" id="withdraw-balance-display">BDT 0.00</div>
+                    <!-- আপডেটেড ব্যালেন্স -->
+                    <div class="balance" id="withdraw-balance-display">BDT 494.00</div>
                     <div class="card-label">Current Balance</div>
                     <div style="margin-top: 20px; font-size: 14px; color: var(--light-text-color);">
                         Minimum withdraw amount is BDT 100.00
@@ -435,11 +464,13 @@
                     <h4 style="margin-top: 0; text-align:left;">My Profile</h4>
                     <div class="profile-info-row">
                         <span class="profile-label">Current Balance</span>
-                        <span class="profile-value" id="profile-balance">BDT 0.00</span>
+                        <!-- আপডেটেড ব্যালেন্স -->
+                        <span class="profile-value" id="profile-balance">BDT 494.00</span>
                     </div>
                     <div class="profile-info-row">
                         <span class="profile-label">Total Earnings</span>
-                        <span class="profile-value" id="profile-earnings">BDT 0.00</span>
+                        <!-- আপডেটেড ব্যালেন্স -->
+                        <span class="profile-value" id="profile-earnings">BDT 494.00</span>
                     </div>
                     <div class="profile-info-row">
                         <span class="profile-label">Total Ads Watched</span>
@@ -473,12 +504,11 @@
         </nav>
     </div>
 
-    <!-- 
-        =====================================================================
-        ====== আপনার দেওয়া নতুন অ্যাড SDK এখানে যুক্ত করা হয়েছে ======
-        =====================================================================
-    -->
+    <!-- ===================================================================== -->
+    <!-- AD SDK SCRIPT START -->
+    <!-- ===================================================================== -->
     <script src='//libtl.com/sdk.js' data-zone='10309370' data-sdk='show_10309370'></script>
+    <!-- ===================================================================== -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -500,8 +530,9 @@
             const AD_REWARD = 0.02; // BDT per ad
             const MIN_WITHDRAW_AMOUNT = 100;
 
+            // নতুন ব্যবহারকারীর জন্য ডিফল্ট ব্যালেন্স 494 সেট করা হয়েছে
             if (!localStorage.getItem('earnings')) {
-                localStorage.setItem('earnings', '0');
+                localStorage.setItem('earnings', '494');
                 localStorage.setItem('adsWatched', '0');
                 localStorage.setItem('totalReferrals', '0');
             }
@@ -577,43 +608,41 @@
             withdrawBtn.addEventListener('click', () => showPage('withdraw-page'));
             
             // ================================================================
-            // বিজ্ঞাপন বাটন লজিক - নতুন SDK ব্যবহার করে
+            // AD LOGIC
             // ================================================================
             watchAdBtn.addEventListener('click', () => {
-                // ১. লিমিট চেক
+                // Check daily limit
                 if (parseInt(localStorage.getItem('adsWatched')) >= DAILY_ADS_LIMIT) {
                     tg.showAlert('আপনার দৈনিক বিজ্ঞাপনের সীমা পৌঁছে গেছে।');
                     return;
                 }
 
-                // ২. বাটন ডিজেবল করুন যেন ডাবল ক্লিক না হয়
+                // Disable button to prevent double clicking
                 watchAdBtn.disabled = true;
 
-                // ৩. নতুন অ্যাড ফাংশন কল
+                // Execute the new SDK function
                 if (typeof show_10309370 === 'function') {
                     show_10309370().then(() => {
-                        // ইউজার সফলভাবে অ্যাড দেখেছে -> রিওয়ার্ড দিন
+                        // User watched the ad successfully -> Give Reward
                         let earnings = parseFloat(localStorage.getItem('earnings')) + AD_REWARD;
                         let currentAdsWatched = parseInt(localStorage.getItem('adsWatched')) + 1;
                         
                         localStorage.setItem('earnings', earnings.toString());
                         localStorage.setItem('adsWatched', currentAdsWatched.toString());
                         
-                        tg.showAlert(`অভিনন্দন! বিজ্ঞাপন দেখার জন্য আপনি BDT ${AD_REWARD.toFixed(2)} পেয়েছেন!`);
+                        tg.showAlert(`অভিনন্দন! আপনি BDT ${AD_REWARD.toFixed(2)} আয় করেছেন!`);
                         updateUI();
                         
-                        // বাটন আবার সচল করুন
+                        // Re-enable button
                         watchAdBtn.disabled = false;
-                    }).catch(e => {
-                        // কোনো সমস্যা হলে
-                        console.error("Ad failed:", e);
-                        tg.showAlert('বিজ্ঞাপন লোড হতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                    }).catch(error => {
+                        console.error('Ad error:', error);
+                        tg.showAlert('বিজ্ঞাপন লোড করা যায়নি। দয়া করে ইন্টারনেট সংযোগ চেক করুন।');
                         watchAdBtn.disabled = false;
                     });
                 } else {
-                    // যদি SDK লোড না হয় (Fallback)
-                    console.log('SDK not found');
-                    tg.showAlert('বিজ্ঞাপন সার্ভার সংযোগে সমস্যা। ইন্টারনেট চেক করুন।');
+                    console.error('SDK Function not found');
+                    tg.showAlert('বিজ্ঞাপন লোড হতে সমস্যা হচ্ছে। কিছুক্ষণ পর চেষ্টা করুন।');
                     watchAdBtn.disabled = false;
                 }
             });
