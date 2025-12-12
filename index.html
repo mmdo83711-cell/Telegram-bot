@@ -475,7 +475,7 @@
 
     <!-- 
         =====================================================================
-        ====== অ্যাড নেটওয়ার্কের নতুন SDK বসানো হয়েছে ======
+        ====== আপনার দেওয়া নতুন অ্যাড SDK এখানে যুক্ত করা হয়েছে ======
         =====================================================================
     -->
     <script src='//libtl.com/sdk.js' data-zone='10309370' data-sdk='show_10309370'></script>
@@ -576,43 +576,45 @@
             startEarningBtn.addEventListener('click', () => showPage('earn-page'));
             withdrawBtn.addEventListener('click', () => showPage('withdraw-page'));
             
+            // ================================================================
+            // বিজ্ঞাপন বাটন লজিক - নতুন SDK ব্যবহার করে
+            // ================================================================
             watchAdBtn.addEventListener('click', () => {
+                // ১. লিমিট চেক
                 if (parseInt(localStorage.getItem('adsWatched')) >= DAILY_ADS_LIMIT) {
                     tg.showAlert('আপনার দৈনিক বিজ্ঞাপনের সীমা পৌঁছে গেছে।');
                     return;
                 }
 
+                // ২. বাটন ডিজেবল করুন যেন ডাবল ক্লিক না হয়
                 watchAdBtn.disabled = true;
 
-                // ======================================================================
-                // নতুন অ্যাড নেটওয়ার্ক কোড (Rewarded Popup)
-                // ======================================================================
+                // ৩. নতুন অ্যাড ফাংশন কল
                 if (typeof show_10309370 === 'function') {
-                    show_10309370('pop').then(() => {
-                        // ইউজার সফলভাবে অ্যাড দেখেছে
+                    show_10309370().then(() => {
+                        // ইউজার সফলভাবে অ্যাড দেখেছে -> রিওয়ার্ড দিন
                         let earnings = parseFloat(localStorage.getItem('earnings')) + AD_REWARD;
                         let currentAdsWatched = parseInt(localStorage.getItem('adsWatched')) + 1;
                         
                         localStorage.setItem('earnings', earnings.toString());
                         localStorage.setItem('adsWatched', currentAdsWatched.toString());
                         
-                        tg.showAlert(`বিজ্ঞাপনটি দেখার জন্য আপনি BDT ${AD_REWARD.toFixed(2)} পেয়েছেন!`);
+                        tg.showAlert(`অভিনন্দন! বিজ্ঞাপন দেখার জন্য আপনি BDT ${AD_REWARD.toFixed(2)} পেয়েছেন!`);
                         updateUI();
+                        
+                        // বাটন আবার সচল করুন
+                        watchAdBtn.disabled = false;
                     }).catch(e => {
-                        // অ্যাড দেখতে কোনো সমস্যা হলে
-                        console.error(e);
-                        tg.showAlert('বিজ্ঞাপনটি দেখাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
-                        updateUI(); // বাটন আবার সচল করার জন্য
+                        // কোনো সমস্যা হলে
+                        console.error("Ad failed:", e);
+                        tg.showAlert('বিজ্ঞাপন লোড হতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                        watchAdBtn.disabled = false;
                     });
                 } else {
-                    // Fallback for testing without SDK loaded
-                    console.log('SDK not loaded, fallback mode');
-                    let earnings = parseFloat(localStorage.getItem('earnings')) + AD_REWARD;
-                    let currentAdsWatched = parseInt(localStorage.getItem('adsWatched')) + 1;
-                    localStorage.setItem('earnings', earnings.toString());
-                    localStorage.setItem('adsWatched', currentAdsWatched.toString());
-                    alert(`(Test Mode) You earned BDT ${AD_REWARD.toFixed(2)}!`);
-                    updateUI();
+                    // যদি SDK লোড না হয় (Fallback)
+                    console.log('SDK not found');
+                    tg.showAlert('বিজ্ঞাপন সার্ভার সংযোগে সমস্যা। ইন্টারনেট চেক করুন।');
+                    watchAdBtn.disabled = false;
                 }
             });
 
