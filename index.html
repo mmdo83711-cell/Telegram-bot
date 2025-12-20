@@ -387,16 +387,22 @@
         const MIN_BKASH_WITHDRAW = 100;
         const MIN_WEBMONEY_WITHDRAW = 500;
 
-        // Default Links
+        // Default Links - Updated keys for separate Like/Follow
         let LINKS = {
-            link1: "https://www.effectivegatecpm.com/u48g35c7?key=a8182d67355e7a5481130df6feb71a4d",
-            link2: "https://www.effectivegatecpm.com/ch689ym0?key=0e197e3a615e2d975fc4082a906ddd33",
-            link3: "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4",
-            link4: "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4",
-            tiktok: "https://tiktok.com",
-            youtube: "https://youtube.com",
-            facebook: "https://facebook.com",
-            instagram: "https://instagram.com"
+            link1: "https://google.com", 
+            link2: "https://google.com",
+            link3: "https://google.com",
+            link4: "https://google.com",
+            
+            // Social Default Links (Matching Admin Panel)
+            tiktok_like: "https://tiktok.com",
+            tiktok_follow: "https://tiktok.com",
+            youtube_like: "https://youtube.com",
+            youtube_follow: "https://youtube.com",
+            facebook_like: "https://facebook.com",
+            facebook_follow: "https://facebook.com",
+            instagram_like: "https://instagram.com",
+            instagram_follow: "https://instagram.com"
         };
 
         let currentUser = null;
@@ -584,9 +590,12 @@
             }
         }
 
-        // New Social Task Function
+        // New Social Task Function (UPDATED)
         window.initiateSocialTask = function(platform, type) {
-            let url = LINKS[platform] || 'https://google.com';
+            // Key তৈরি করছি: যেমন 'tiktok' + '_' + 'like' = 'tiktok_like'
+            let linkKey = platform + '_' + type; 
+            let url = LINKS[linkKey] || 'https://google.com';
+            
             let reward = (type === 'like') ? SOCIAL_LIKE_REWARD : SOCIAL_FOLLOW_REWARD;
             
             pendingTaskUrl = url;
