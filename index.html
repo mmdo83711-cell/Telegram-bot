@@ -19,15 +19,20 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--background-color); margin: 0; padding-bottom: 60px; color: var(--text-color); }
         .container { max-width: 450px; margin: 0 auto; background-color: var(--card-background); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Login Page Styles */
-        #login-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; height: 100vh; box-sizing: border-box; background: white; z-index: 2000; position: fixed; top: 0; width: 100%; max-width: 450px; left: 50%; transform: translateX(-50%); }
-        .login-logo { font-size: 60px; color: var(--primary-color); margin-bottom: 20px; }
-        .login-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #333; }
-        .login-subtitle { font-size: 14px; color: #666; margin-bottom: 30px; text-align: center; }
-        .login-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; font-size: 16px; outline: none; transition: border 0.3s; }
-        .login-input:focus { border-color: var(--primary-color); }
-        .otp-section { width: 100%; display: none; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+        /* LOGIN PAGE STYLES (NEW) */
+        #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 5000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .login-card { width: 100%; max-width: 350px; text-align: center; }
+        .login-icon { font-size: 60px; color: var(--primary-color); margin-bottom: 20px; }
+        .login-title { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+        .login-desc { font-size: 14px; color: #666; margin-bottom: 25px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px; display: block; }
+        .login-input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .login-input:focus { border-color: var(--primary-color); box-shadow: 0 0 5px rgba(0,123,255,0.2); }
+        
+        /* Animation for page switching */
+        .step-container { display: none; animation: fadeIn 0.4s ease; }
+        .step-container.active { display: block; }
 
         /* Main App Styles */
         .header { display: flex; align-items: center; padding: 10px 15px; background-color: var(--card-background); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
@@ -95,29 +100,42 @@
     </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
-    <div id="login-container">
-        <i class="material-icons login-logo">lock_person</i>
-        <div class="login-title">Secure Login</div>
-        <div class="login-subtitle">Enter your Telegram User ID to receive a verification code.</div>
+    
+    <!-- LOGIN PAGE VIEW -->
+    <div id="login-view">
         
-        <div id="login-step-1" style="width: 100%;">
-            <label style="text-align:left; display:block; font-size:12px; margin-bottom:5px; color:#555;">Telegram User ID (UID):</label>
-            <input type="number" id="login-uid" class="login-input" placeholder="e.g. 123456789">
-            <div style="font-size:11px; color:#888; text-align:left; margin-bottom:15px;">
-                * Don't know your ID? Send <b>/start</b> to our bot to get it.
+        <!-- STEP 1: Username Input -->
+        <div id="step-username" class="login-card step-container active">
+            <i class="material-icons login-icon">account_circle</i>
+            <div class="login-title">Login</div>
+            <div class="login-desc">আপনার টেলিগ্রাম ইউজার নেম দিয়ে লগইন করুন</div>
+            
+            <div class="input-group">
+                <label>Telegram Username (ex: @user123)</label>
+                <input type="text" id="input-username" class="login-input" placeholder="@username">
             </div>
-            <button class="primary-btn" id="send-otp-btn">Send Verify Code</button>
+            
+            <button class="primary-btn" id="login-btn-init">Login <i class="material-icons">arrow_forward</i></button>
+            <div style="font-size:12px; margin-top:15px; color:#777;">
+                Note: আপনি যদি প্রথমবার হয়ে থাকেন, অবশ্যই আগে বট Start করে নিন।
+            </div>
         </div>
 
-        <div id="login-step-2" class="otp-section">
-            <div style="background:#e3f2fd; color:#0d47a1; padding:10px; border-radius:5px; font-size:13px; margin-bottom:15px;">
-                ✅ Code sent! Check your Telegram Bot.
+        <!-- STEP 2: OTP Verification -->
+        <div id="step-otp" class="login-card step-container">
+            <i class="material-icons login-icon">mark_email_read</i>
+            <div class="login-title">Verify Account</div>
+            <div class="login-desc">আপনার টেলিগ্রামে একটি কোড পাঠানো হয়েছে। কোডটি নিচে দিন।</div>
+            
+            <div class="input-group">
+                <label>Enter Verification Code</label>
+                <input type="number" id="input-otp" class="login-input" placeholder="6 Digit Code">
             </div>
-            <input type="number" id="login-otp" class="login-input" placeholder="Enter 6-digit Code">
-            <button class="primary-btn" id="verify-otp-btn">Verify & Login</button>
-            <button class="secondary-btn" onclick="location.reload()" style="margin-top:10px;">Cancel</button>
+            
+            <button class="primary-btn" id="login-btn-verify">Verify Login <i class="material-icons">check_circle</i></button>
+            <button class="secondary-btn" onclick="location.reload()" style="margin-top:10px;">Back</button>
         </div>
+
     </div>
 
     <!-- Loading Screen (Internal) -->
@@ -136,8 +154,9 @@
                 <p>Welcome to Earning App</p>
             </div>
             <div style="margin-left:auto;">
-                <button onclick="logout()" style="background:none; border:none; color:#d32f2f; cursor:pointer;">
+                <button onclick="logout()" style="background:none; border:none; color:#d32f2f; cursor:pointer; display:flex; flex-direction:column; align-items:center;">
                     <i class="material-icons">logout</i>
+                    <span style="font-size:10px;">Exit</span>
                 </button>
             </div>
         </header>
@@ -405,90 +424,121 @@
         let pendingTaskUrl = ''; 
         let pendingRewardAmount = 0;
         let lastNotifId = null;
-        letgeneratedOtp = null;
-        let loginChatId = null;
+        
+        // Login Variables
+        let generatedOtp = null;
+        let tempUsername = '';
+        let detectedChatId = null;
 
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // --- LOGIN LOGIC START ---
+        // --- LOGIN LOGIC (UPDATED) ---
 
-        // Check Login State on Load
+        // 1. Check Login State on Load
         document.addEventListener('DOMContentLoaded', () => {
             const savedUid = localStorage.getItem('earnApp_uid');
-            // If already logged in, skip login screen
+            
             if (savedUid) {
+                // ALREADY LOGGED IN
                 userId = savedUid;
+                document.getElementById('login-view').style.display = 'none';
                 startApp();
             } else {
-                // Check if opened inside Telegram and ID is available
+                // NOT LOGGED IN - Show Login View
+                document.getElementById('login-view').style.display = 'flex';
+                
+                // Auto-fill username if available in TG
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                     // Auto-fill ID but require verification if strict, 
-                     // OR just auto-login since Telegram verified them.
-                     // To follow your prompt "send code", we will prompt even if in TG,
-                     // but auto-fill the input.
-                     document.getElementById('login-uid').value = tg.initDataUnsafe.user.id;
+                    detectedChatId = tg.initDataUnsafe.user.id; // Capture ID automatically
+                    if(tg.initDataUnsafe.user.username) {
+                        document.getElementById('input-username').value = '@' + tg.initDataUnsafe.user.username;
+                    }
                 }
-                document.getElementById('login-container').style.display = 'flex';
             }
         });
 
-        // 1. Send OTP
-        document.getElementById('send-otp-btn').addEventListener('click', async () => {
-            const inputId = document.getElementById('login-uid').value.trim();
-            if (!inputId) { tg.showAlert("Please enter your Telegram User ID"); return; }
+        // 2. Click Login -> Send OTP to Telegram
+        document.getElementById('login-btn-init').addEventListener('click', async () => {
+            const usernameInput = document.getElementById('input-username').value.trim();
             
-            loginChatId = inputId;
+            if (!usernameInput) { 
+                tg.showAlert("দয়া করে ইউজার নেম দিন (ex: @name)"); 
+                return; 
+            }
+
+            // CRITICAL: We need the Chat ID to send message. 
+            // If opened inside Telegram, we have 'detectedChatId'.
+            // If opened in browser without TG context, we can't send message easily.
+            if (!detectedChatId) {
+                // Fallback attempt (unlikely to work outside TG Mini App context for messaging)
+                tg.showAlert("দয়া করে অ্যাপটি Telegram এর ভেতর থেকে ওপেন করুন।");
+                return;
+            }
+
+            tempUsername = usernameInput;
             const otp = Math.floor(100000 + Math.random() * 900000); // 6 Digit Code
             generatedOtp = otp;
 
-            const btn = document.getElementById('send-otp-btn');
+            const btn = document.getElementById('login-btn-init');
             btn.disabled = true;
-            btn.innerText = "Sending...";
+            btn.innerText = "Sending Code...";
 
-            // Send via Bot API
-            const message = `🔐 *Verification Code*\n\nYour code is: \`${otp}\`\n\nEnter this in the app to login.`;
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${loginChatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+            // Send OTP via Bot API to the DETECTED CHAT ID (Not username)
+            const message = `🔐 *Login Verification*\n\nHello ${tempUsername},\nYour code: \`${otp}\`\n\nUse this to login to the app.`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${detectedChatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.ok) {
-                    document.getElementById('login-step-1').style.display = 'none';
-                    document.getElementById('login-step-2').style.display = 'block';
-                    tg.showAlert("Code sent to your Telegram!");
+                    // Switch to OTP Page
+                    document.getElementById('step-username').classList.remove('active');
+                    document.getElementById('step-otp').classList.add('active');
+                    tg.showAlert("কোড পাঠানো হয়েছে!");
                 } else {
-                    tg.showAlert("Failed to send code. Please start the bot first: /start");
+                    tg.showAlert("মেসেজ পাঠানো যাচ্ছে না। দয়া করে বট Start করুন (/start)।");
                     btn.disabled = false;
-                    btn.innerText = "Send Verify Code";
+                    btn.innerHTML = 'Login <i class="material-icons">arrow_forward</i>';
                 }
             } catch (e) {
-                tg.showAlert("Connection Error");
+                tg.showAlert("Connection Error. Check internet.");
                 btn.disabled = false;
-                btn.innerText = "Send Verify Code";
+                btn.innerHTML = 'Login <i class="material-icons">arrow_forward</i>';
             }
         });
 
-        // 2. Verify OTP
-        document.getElementById('verify-otp-btn').addEventListener('click', () => {
-            const userOtp = document.getElementById('login-otp').value.trim();
+        // 3. Verify OTP -> Login
+        document.getElementById('login-btn-verify').addEventListener('click', () => {
+            const userOtp = document.getElementById('input-otp').value.trim();
+            
             if (userOtp == generatedOtp) {
                 // Success
-                userId = loginChatId;
-                localStorage.setItem('earnApp_uid', userId); // Save Login
-                document.getElementById('login-container').style.display = 'none';
+                userId = detectedChatId.toString(); // Use the ID as key
+                
+                // Save to LocalStorage (Persistent Login)
+                localStorage.setItem('earnApp_uid', userId);
+                localStorage.setItem('earnApp_username', tempUsername);
+
+                // Hide Login, Show App
+                document.getElementById('login-view').style.display = 'none';
                 startApp();
             } else {
-                tg.showAlert("Invalid Code. Try again.");
+                tg.showAlert("ভুল কোড! আবার চেষ্টা করুন।");
             }
         });
 
         // Logout
         window.logout = function() {
-            localStorage.removeItem('earnApp_uid');
-            location.reload();
+            tg.showConfirm("Are you sure you want to logout?", (ok) => {
+                if(ok) {
+                    localStorage.removeItem('earnApp_uid');
+                    localStorage.removeItem('earnApp_username');
+                    location.reload();
+                }
+            });
         }
 
         // --- APP INITIALIZATION ---
@@ -508,10 +558,13 @@
                     currentUser = data;
                     updateUI(data);
                 } else {
-                    // Create New User
+                    // Create New User in DB
                     let tgData = {};
                     if(tg.initDataUnsafe && tg.initDataUnsafe.user) tgData = tg.initDataUnsafe.user;
                     
+                    // Use stored username if TG data missing
+                    const finalUsername = tgData.username || localStorage.getItem('earnApp_username') || 'user';
+
                     const newUser = {
                         balance: 0,
                         totalEarnings: 0,
@@ -519,8 +572,8 @@
                         hourlyAdsWatched: 0,
                         adSessionStart: 0,
                         referrals: 0,
-                        name: tgData.first_name ? `${tgData.first_name} ${tgData.last_name||''}` : `User ${userId}`,
-                        username: tgData.username || 'unknown',
+                        name: tgData.first_name ? `${tgData.first_name} ${tgData.last_name||''}` : finalUsername,
+                        username: finalUsername,
                         userId: userId
                     };
                     set(userRef, newUser);
