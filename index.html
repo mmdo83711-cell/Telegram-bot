@@ -19,7 +19,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--background-color); margin: 0; padding-bottom: 60px; color: var(--text-color); }
         .container { max-width: 450px; margin: 0 auto; background-color: var(--card-background); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* LOGIN PAGE STYLES (NEW) */
+        /* LOGIN PAGE STYLES */
         #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 5000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
         .login-card { width: 100%; max-width: 350px; text-align: center; }
         .login-icon { font-size: 60px; color: var(--primary-color); margin-bottom: 20px; }
@@ -29,8 +29,8 @@
         .input-group label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px; display: block; }
         .login-input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
         .login-input:focus { border-color: var(--primary-color); box-shadow: 0 0 5px rgba(0,123,255,0.2); }
+        .get-id-btn { font-size: 12px; color: var(--primary-color); text-decoration: none; font-weight: 600; display: inline-block; margin-top: 5px; }
         
-        /* Animation for page switching */
         .step-container { display: none; animation: fadeIn 0.4s ease; }
         .step-container.active { display: block; }
 
@@ -104,21 +104,25 @@
     <!-- LOGIN PAGE VIEW -->
     <div id="login-view">
         
-        <!-- STEP 1: Username Input -->
-        <div id="step-username" class="login-card step-container active">
+        <!-- STEP 1: User ID Input -->
+        <div id="step-id" class="login-card step-container active">
             <i class="material-icons login-icon">account_circle</i>
             <div class="login-title">Login</div>
-            <div class="login-desc">আপনার টেলিগ্রাম ইউজার নেম দিয়ে লগইন করুন</div>
+            <div class="login-desc">আপনার টেলিগ্রাম <b>User ID (সংখ্যা)</b> দিয়ে লগইন করুন।</div>
             
             <div class="input-group">
-                <label>Telegram Username (ex: @user123)</label>
-                <input type="text" id="input-username" class="login-input" placeholder="@username">
+                <label>Telegram User ID:</label>
+                <input type="number" id="input-uid" class="login-input" placeholder="e.g. 12345678">
+                
+                <!-- Link to get ID -->
+                <div style="margin-top:5px; text-align:right;">
+                    <a href="https://t.me/freeincomebd24_bot" target="_blank" class="get-id-btn">
+                        <i class="fa-brands fa-telegram"></i> আইডি জানেন না? এখানে ক্লিক করুন
+                    </a>
+                </div>
             </div>
             
-            <button class="primary-btn" id="login-btn-init">Login <i class="material-icons">arrow_forward</i></button>
-            <div style="font-size:12px; margin-top:15px; color:#777;">
-                Note: আপনি যদি প্রথমবার হয়ে থাকেন, অবশ্যই আগে বট Start করে নিন।
-            </div>
+            <button class="primary-btn" id="login-btn-init">Next <i class="material-icons">arrow_forward</i></button>
         </div>
 
         <!-- STEP 2: OTP Verification -->
@@ -132,7 +136,7 @@
                 <input type="number" id="input-otp" class="login-input" placeholder="6 Digit Code">
             </div>
             
-            <button class="primary-btn" id="login-btn-verify">Verify Login <i class="material-icons">check_circle</i></button>
+            <button class="primary-btn" id="login-btn-verify">Verify & Login <i class="material-icons">check_circle</i></button>
             <button class="secondary-btn" onclick="location.reload()" style="margin-top:10px;">Back</button>
         </div>
 
@@ -404,8 +408,8 @@
         const db = getDatabase(app);
 
         // CONFIGURATION
-        const BOT_TOKEN = '8517755201:AAFAnwqBFjtc9NZcTdXHzUtNDEJtZ0c6OKs'; // Replace with your actual Bot Token
-        const CHAT_ID = '@earnfree0t';
+        const BOT_TOKEN = '8371936547:AAFG8B3ncz4gINjk-XCgvjI5IIdXONmFlr0'; 
+        const CHAT_ID = '@freeincomebd24_bot'; // Placeholder Chat ID
         
         const HOURLY_ADS_LIMIT = 20;
         const SESSION_DURATION = 60 * 60 * 1000;
@@ -427,14 +431,13 @@
         
         // Login Variables
         let generatedOtp = null;
-        let tempUsername = '';
-        let detectedChatId = null;
+        let tempUid = null;
 
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        // --- LOGIN LOGIC (UPDATED) ---
+        // --- LOGIN LOGIC ---
 
         // 1. Check Login State on Load
         document.addEventListener('DOMContentLoaded', () => {
@@ -449,35 +452,23 @@
                 // NOT LOGGED IN - Show Login View
                 document.getElementById('login-view').style.display = 'flex';
                 
-                // Auto-fill username if available in TG
+                // Auto-fill UID if available (if in TG)
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                    detectedChatId = tg.initDataUnsafe.user.id; // Capture ID automatically
-                    if(tg.initDataUnsafe.user.username) {
-                        document.getElementById('input-username').value = '@' + tg.initDataUnsafe.user.username;
-                    }
+                    document.getElementById('input-uid').value = tg.initDataUnsafe.user.id;
                 }
             }
         });
 
-        // 2. Click Login -> Send OTP to Telegram
+        // 2. Click Login -> Send OTP
         document.getElementById('login-btn-init').addEventListener('click', async () => {
-            const usernameInput = document.getElementById('input-username').value.trim();
+            const inputVal = document.getElementById('input-uid').value.trim();
             
-            if (!usernameInput) { 
-                tg.showAlert("দয়া করে ইউজার নেম দিন (ex: @name)"); 
+            if (!inputVal) { 
+                alert("দয়া করে Telegram User ID দিন।"); 
                 return; 
             }
 
-            // CRITICAL: We need the Chat ID to send message. 
-            // If opened inside Telegram, we have 'detectedChatId'.
-            // If opened in browser without TG context, we can't send message easily.
-            if (!detectedChatId) {
-                // Fallback attempt (unlikely to work outside TG Mini App context for messaging)
-                tg.showAlert("দয়া করে অ্যাপটি Telegram এর ভেতর থেকে ওপেন করুন।");
-                return;
-            }
-
-            tempUsername = usernameInput;
+            tempUid = inputVal;
             const otp = Math.floor(100000 + Math.random() * 900000); // 6 Digit Code
             generatedOtp = otp;
 
@@ -485,9 +476,9 @@
             btn.disabled = true;
             btn.innerText = "Sending Code...";
 
-            // Send OTP via Bot API to the DETECTED CHAT ID (Not username)
-            const message = `🔐 *Login Verification*\n\nHello ${tempUsername},\nYour code: \`${otp}\`\n\nUse this to login to the app.`;
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${detectedChatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+            // Send OTP via Bot API to the Entered UID
+            const message = `🔐 *Login Verification*\n\nYour code: \`${otp}\`\n\nUse this to login to the app.`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${tempUid}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
             try {
                 const response = await fetch(url);
@@ -495,18 +486,17 @@
                 
                 if (data.ok) {
                     // Switch to OTP Page
-                    document.getElementById('step-username').classList.remove('active');
+                    document.getElementById('step-id').classList.remove('active');
                     document.getElementById('step-otp').classList.add('active');
-                    tg.showAlert("কোড পাঠানো হয়েছে!");
                 } else {
-                    tg.showAlert("মেসেজ পাঠানো যাচ্ছে না। দয়া করে বট Start করুন (/start)।");
+                    alert("কোড পাঠানো যাচ্ছে না। আপনি কি আমাদের Bot Start করেছেন? দয়া করে Bot এ গিয়ে /start দিন।");
                     btn.disabled = false;
-                    btn.innerHTML = 'Login <i class="material-icons">arrow_forward</i>';
+                    btn.innerHTML = 'Next <i class="material-icons">arrow_forward</i>';
                 }
             } catch (e) {
-                tg.showAlert("Connection Error. Check internet.");
+                alert("ইন্টারনেট কানেকশন চেক করুন।");
                 btn.disabled = false;
-                btn.innerHTML = 'Login <i class="material-icons">arrow_forward</i>';
+                btn.innerHTML = 'Next <i class="material-icons">arrow_forward</i>';
             }
         });
 
@@ -516,29 +506,25 @@
             
             if (userOtp == generatedOtp) {
                 // Success
-                userId = detectedChatId.toString(); // Use the ID as key
+                userId = tempUid;
                 
                 // Save to LocalStorage (Persistent Login)
                 localStorage.setItem('earnApp_uid', userId);
-                localStorage.setItem('earnApp_username', tempUsername);
 
                 // Hide Login, Show App
                 document.getElementById('login-view').style.display = 'none';
                 startApp();
             } else {
-                tg.showAlert("ভুল কোড! আবার চেষ্টা করুন।");
+                alert("ভুল কোড! আবার চেষ্টা করুন।");
             }
         });
 
         // Logout
         window.logout = function() {
-            tg.showConfirm("Are you sure you want to logout?", (ok) => {
-                if(ok) {
-                    localStorage.removeItem('earnApp_uid');
-                    localStorage.removeItem('earnApp_username');
-                    location.reload();
-                }
-            });
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem('earnApp_uid');
+                location.reload();
+            }
         }
 
         // --- APP INITIALIZATION ---
@@ -558,13 +544,7 @@
                     currentUser = data;
                     updateUI(data);
                 } else {
-                    // Create New User in DB
-                    let tgData = {};
-                    if(tg.initDataUnsafe && tg.initDataUnsafe.user) tgData = tg.initDataUnsafe.user;
-                    
-                    // Use stored username if TG data missing
-                    const finalUsername = tgData.username || localStorage.getItem('earnApp_username') || 'user';
-
+                    // Create New User (Browser Mode)
                     const newUser = {
                         balance: 0,
                         totalEarnings: 0,
@@ -572,8 +552,8 @@
                         hourlyAdsWatched: 0,
                         adSessionStart: 0,
                         referrals: 0,
-                        name: tgData.first_name ? `${tgData.first_name} ${tgData.last_name||''}` : finalUsername,
-                        username: finalUsername,
+                        name: `User ${userId}`, // Default Name
+                        username: 'unknown',
                         userId: userId
                     };
                     set(userRef, newUser);
@@ -685,7 +665,7 @@
         }
 
         function initiateTask(url, reward, isBanner = false) {
-            if (currentUser.hourlyAdsWatched >= HOURLY_ADS_LIMIT) { tg.showAlert("Hourly limit reached!"); return; }
+            if (currentUser.hourlyAdsWatched >= HOURLY_ADS_LIMIT) { alert("Hourly limit reached!"); return; }
             pendingTaskUrl = url;
             pendingRewardAmount = reward;
 
@@ -728,8 +708,8 @@
                 updates['adSessionStart'] = now;
             }
             update(ref(db, 'users/' + userId), updates)
-                .then(() => tg.showAlert(`Success! BDT ${amount.toFixed(2)} added.`))
-                .catch(e => tg.showAlert("Error updating balance."));
+                .then(() => alert(`Success! BDT ${amount.toFixed(2)} added.`))
+                .catch(e => alert("Error updating balance."));
         }
 
         async function uploadProofToTelegram(file, captionSuffix = "") {
@@ -765,7 +745,7 @@
             const btn = document.getElementById('submit-proof-btn');
             const status = document.getElementById('upload-status');
 
-            if (!f1 || !f2) { tg.showAlert("Please upload both screenshots."); return; }
+            if (!f1 || !f2) { alert("Please upload both screenshots."); return; }
             btn.disabled = true;
             status.style.display = 'block';
             status.innerText = "Sending...";
@@ -790,7 +770,7 @@
             const btn = document.getElementById('social-submit-btn');
             const status = document.getElementById('social-upload-status');
 
-            if (!f1) { tg.showAlert("Please upload screenshot."); return; }
+            if (!f1) { alert("Please upload screenshot."); return; }
             btn.disabled = true;
             status.style.display = 'block';
             status.innerText = "Sending...";
@@ -853,26 +833,24 @@
             const account = document.getElementById('account-number').value;
             let min = method === 'webmoney' ? MIN_WEBMONEY_WITHDRAW : MIN_BKASH_WITHDRAW;
 
-            if (amount < min) { tg.showAlert(`Minimum amount is BDT ${min}`); return; }
-            if (amount > parseFloat(currentUser.balance)) { tg.showAlert("Insufficient balance."); return; }
+            if (amount < min) { alert(`Minimum amount is BDT ${min}`); return; }
+            if (amount > parseFloat(currentUser.balance)) { alert("Insufficient balance."); return; }
 
-            tg.showConfirm(`Withdraw BDT ${amount} via ${method}?`, (ok) => {
-                if (ok) {
-                    const newBalance = parseFloat(currentUser.balance) - amount;
-                    update(ref(db, 'users/' + userId), { balance: newBalance });
-                    push(ref(db, 'withdrawals'), {
-                        userId: userId,
-                        userName: currentUser.name,
-                        amount: amount,
-                        method: method,
-                        account: account,
-                        status: 'Pending',
-                        timestamp: serverTimestamp()
-                    });
-                    document.getElementById('withdraw-form').reset();
-                    tg.showAlert("Withdrawal request submitted!");
-                }
-            });
+            if (confirm(`Withdraw BDT ${amount} via ${method}?`)) {
+                const newBalance = parseFloat(currentUser.balance) - amount;
+                update(ref(db, 'users/' + userId), { balance: newBalance });
+                push(ref(db, 'withdrawals'), {
+                    userId: userId,
+                    userName: currentUser.name,
+                    amount: amount,
+                    method: method,
+                    account: account,
+                    status: 'Pending',
+                    timestamp: serverTimestamp()
+                });
+                document.getElementById('withdraw-form').reset();
+                alert("Withdrawal request submitted!");
+            }
         });
     </script>
 </body>
