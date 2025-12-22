@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Ad Network Script -->
-    <script async="async" data-cfasync="false" src="https://pl28087364.effectivegatecpm.com/5f0b65d762714132d66c6ba8945349f3/invoke.js"></script>
-    <div id="container-5f0b65d762714132d66c6ba8945349f3"></div>    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Earning App</title>
+    
+    <!-- Ad Network Scripts -->
+    <script async="async" data-cfasync="false" src="https://pl28087364.effectivegatecpm.com/5f0b65d762714132d66c6ba8945349f3/invoke.js"></script>
+    <div id="container-5f0b65d762714132d66c6ba8945349f3"></div>  
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         /* CSS STYLES */
-        :root { --primary-color: #007bff; --secondary-color: #28a745; --background-color: #f0f2f5; --card-background: #ffffff; --text-color: #333333; --light-text-color: #888888; --border-color: #e0e0e0; --social-color: #6c757d; }
+        :root { --primary-color: #007bff; --secondary-color: #28a745; --background-color: #f0f2f5; --card-background: #ffffff; --text-color: #333333; --light-text-color: #888888; --border-color: #e0e0e0; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--background-color); margin: 0; padding-bottom: 60px; color: var(--text-color); }
         .container { max-width: 450px; margin: 0 auto; background-color: var(--card-background); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Login Page Styles */
+        #login-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; height: 100vh; box-sizing: border-box; background: white; z-index: 2000; position: fixed; top: 0; width: 100%; max-width: 450px; left: 50%; transform: translateX(-50%); }
+        .login-logo { font-size: 60px; color: var(--primary-color); margin-bottom: 20px; }
+        .login-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #333; }
+        .login-subtitle { font-size: 14px; color: #666; margin-bottom: 30px; text-align: center; }
+        .login-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; font-size: 16px; outline: none; transition: border 0.3s; }
+        .login-input:focus { border-color: var(--primary-color); }
+        .otp-section { width: 100%; display: none; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+
+        /* Main App Styles */
         .header { display: flex; align-items: center; padding: 10px 15px; background-color: var(--card-background); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
         .header-profile-pic { width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--primary-color); background-color: #eee; object-fit: cover; }
         .header-user-info h3 { margin: 0; font-size: 16px; font-weight: 600; }
@@ -32,7 +46,6 @@
         .dashboard-item-value { font-size: 24px; font-weight: 700; color: var(--text-color); }
         .dashboard-item-label { font-size: 12px; color: var(--light-text-color); }
         .primary-btn, .secondary-btn, .social-btn { border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: background-color 0.3s, transform 0.2s; margin-top: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-sizing: border-box; }
-        .primary-btn .material-icons, .secondary-btn .material-icons, .secondary-btn .fa-brands { font-size: 20px; }
         .primary-btn { background-color: var(--primary-color); color: #fff; }
         .primary-btn:hover { background-color: #0056b3; transform: translateY(-2px); }
         .primary-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
@@ -41,14 +54,14 @@
         
         /* Social Buttons */
         .social-btn { font-size: 14px; padding: 10px; margin-top: 8px; color: #fff; }
-        .social-btn.like { background-color: #e91e63; } /* Pinkish for Like */
-        .social-btn.follow { background-color: #673ab7; } /* Purple for Follow */
+        .social-btn.like { background-color: #e91e63; }
+        .social-btn.follow { background-color: #673ab7; }
         
         .progress-bar-container { height: 10px; background-color: #eee; border-radius: 5px; overflow: hidden; margin-top: 10px; }
         .progress-bar { height: 100%; background-color: var(--primary-color); width: 0; transition: width 0.5s ease-in-out; }
         .footer-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; max-width: 450px; background-color: var(--card-background); border-top: 1px solid var(--border-color); box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05); z-index: 200; }
         .nav-item { display: flex; flex-direction: column; align-items: center; padding: 10px; cursor: pointer; color: var(--light-text-color); transition: color 0.3s; flex: 1; }
-        .nav-item .material-icons, .nav-item .fa-solid { font-size: 24px; margin-bottom: 5px; }
+        .nav-item .material-icons { font-size: 24px; margin-bottom: 5px; }
         .nav-item-label { font-size: 12px; font-weight: 500; }
         .nav-item.active { color: var(--primary-color); }
         .page { display: none; animation: fadeIn 0.5s; }
@@ -78,32 +91,60 @@
         .file-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; font-size: 13px; }
         .upload-status { font-size: 12px; color: #28a745; margin-top: 5px; display: none; }
         #loading-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999; display:flex; justify-content:center; align-items:center; flex-direction:column; }
-        
-        /* New Notification Badge Style */
         .admin-notif-box { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left; font-size: 14px; display: none; }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div style="font-size:24px; font-weight:bold; color:var(--primary-color);">Loading App...</div>
-        <p>Please wait connecting to server</p>
+    <!-- LOGIN PAGE -->
+    <div id="login-container">
+        <i class="material-icons login-logo">lock_person</i>
+        <div class="login-title">Secure Login</div>
+        <div class="login-subtitle">Enter your Telegram User ID to receive a verification code.</div>
+        
+        <div id="login-step-1" style="width: 100%;">
+            <label style="text-align:left; display:block; font-size:12px; margin-bottom:5px; color:#555;">Telegram User ID (UID):</label>
+            <input type="number" id="login-uid" class="login-input" placeholder="e.g. 123456789">
+            <div style="font-size:11px; color:#888; text-align:left; margin-bottom:15px;">
+                * Don't know your ID? Send <b>/start</b> to our bot to get it.
+            </div>
+            <button class="primary-btn" id="send-otp-btn">Send Verify Code</button>
+        </div>
+
+        <div id="login-step-2" class="otp-section">
+            <div style="background:#e3f2fd; color:#0d47a1; padding:10px; border-radius:5px; font-size:13px; margin-bottom:15px;">
+                ✅ Code sent! Check your Telegram Bot.
+            </div>
+            <input type="number" id="login-otp" class="login-input" placeholder="Enter 6-digit Code">
+            <button class="primary-btn" id="verify-otp-btn">Verify & Login</button>
+            <button class="secondary-btn" onclick="location.reload()" style="margin-top:10px;">Cancel</button>
+        </div>
     </div>
 
+    <!-- Loading Screen (Internal) -->
+    <div id="loading-screen" style="display:none;">
+        <div style="font-size:24px; font-weight:bold; color:var(--primary-color);">Loading App...</div>
+        <p>Connecting to server...</p>
+    </div>
+
+    <!-- Main App Container (Hidden by default) -->
     <div class="container" style="display:none;" id="main-app-container">
         <!-- Header -->
         <header class="header">
             <img id="header-profile-pic" src="https://via.placeholder.com/40" class="header-profile-pic">
             <div class="header-user-info">
-                <h3 id="header-user-name">Guest</h3>
+                <h3 id="header-user-name">User</h3>
                 <p>Welcome to Earning App</p>
+            </div>
+            <div style="margin-left:auto;">
+                <button onclick="logout()" style="background:none; border:none; color:#d32f2f; cursor:pointer;">
+                    <i class="material-icons">logout</i>
+                </button>
             </div>
         </header>
 
         <main class="content">
             <!-- Home Page -->
             <section id="home-page" class="page active">
-                <!-- Admin Notification Area (Static placeholder, gets populated) -->
                 <div id="home-notification-box" class="admin-notif-box">
                     <strong>📢 Admin Notice:</strong> <span id="home-notif-text">Loading...</span>
                 </div>
@@ -145,7 +186,6 @@
                     </div>
                 </div>
 
-                <!-- PREMIUM TASKS (Existing) -->
                 <div class="card">
                     <h2 class="card-header"><span class="material-icons">task</span>Premium Task 1</h2>
                     <button class="primary-btn" id="task-btn-1">Start Task 1 <span class="material-icons">open_in_new</span></button>
@@ -161,10 +201,8 @@
                     <button class="primary-btn" id="task-btn-3">Start Task 3 <span class="material-icons">open_in_new</span></button>
                 </div>
 
-                <!-- SOCIAL MEDIA TASKS (New) -->
+                <!-- SOCIAL MEDIA TASKS -->
                 <div style="margin: 25px 0 10px; font-weight:bold; color:#555; text-align:left;">Social Media Tasks</div>
-                
-                <!-- TikTok -->
                 <div class="card">
                     <h2 class="card-header"><i class="fa-brands fa-tiktok"></i> TikTok Task</h2>
                     <div style="display: flex; gap: 10px;">
@@ -172,8 +210,6 @@
                         <button class="social-btn follow" onclick="initiateSocialTask('tiktok', 'follow')">Follow (BDT 0.6)</button>
                     </div>
                 </div>
-
-                <!-- YouTube -->
                 <div class="card">
                     <h2 class="card-header"><i class="fa-brands fa-youtube" style="color: red;"></i> YouTube Task</h2>
                     <div style="display: flex; gap: 10px;">
@@ -181,8 +217,6 @@
                         <button class="social-btn follow" style="background-color: #c4302b;" onclick="initiateSocialTask('youtube', 'follow')">Subscribe (BDT 0.6)</button>
                     </div>
                 </div>
-
-                <!-- Facebook -->
                 <div class="card">
                     <h2 class="card-header"><i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Facebook Task</h2>
                     <div style="display: flex; gap: 10px;">
@@ -190,8 +224,6 @@
                         <button class="social-btn follow" style="background-color: #1877f2;" onclick="initiateSocialTask('facebook', 'follow')">Follow (BDT 0.6)</button>
                     </div>
                 </div>
-
-                <!-- Instagram -->
                 <div class="card">
                     <h2 class="card-header"><i class="fa-brands fa-instagram" style="color: #c13584;"></i> Instagram Task</h2>
                     <div style="display: flex; gap: 10px;">
@@ -252,6 +284,7 @@
                     </div>
                     <h3 id="profile-user-name" style="margin: 0; font-weight: 600;">User</h3>
                     <p id="profile-user-username" style="margin: 5px 0 0; color: var(--light-text-color); font-size: 14px;">@telegram</p>
+                    <p id="profile-user-id" style="margin: 2px 0 0; color: #999; font-size: 12px;">ID: 00000</p>
                 </div>
                 <div class="profile-info">
                     <h4 style="margin-top: 0; text-align:left;">My Profile</h4>
@@ -271,10 +304,10 @@
         </nav>
     </div>
 
-    <!-- STANDARD NOTICE MODAL -->
+    <!-- MODALS -->
     <div id="task-notice-modal" class="modal">
         <div class="modal-content">
-            <span id="close-modal-btn" class="close-modal-btn">&times;</span>
+            <span class="close-modal-btn" onclick="document.getElementById('task-notice-modal').classList.remove('active')">&times;</span>
             <div class="notice-title">📢 গুরুত্বপূর্ণ নোটিশ</div>
             <div class="notice-body">
                 ▶️ <strong>Start</strong> বাটনে ক্লিক করার পর আপনার সামনে একটি ওয়েবসাইট ওপেন হবে।<br>
@@ -284,29 +317,20 @@
         </div>
     </div>
 
-    <!-- BANNER TASK MODAL -->
     <div id="banner-notice-modal" class="modal">
         <div class="modal-content">
-            <span id="close-banner-modal-btn" class="close-modal-btn">&times;</span>
+            <span class="close-modal-btn" onclick="document.getElementById('banner-notice-modal').classList.remove('active')">&times;</span>
             <div class="notice-title">📢 Banner Task Rules</div>
-            
             <div id="banner-step-1">
                 <div class="notice-body" style="text-align: left;">
-                    👉 Click Start<br>
-                    🌐 Visit Website<br>
-                    📸 Take 2 Screenshots (Home + Login)<br>
-                    <strong>Reward: BDT 0.50</strong>
+                    👉 Click Start<br>🌐 Visit Website<br>📸 Take 2 Screenshots<br><strong>Reward: BDT 0.50</strong>
                 </div>
                 <button id="banner-modal-start-btn" class="primary-btn">Start <span class="material-icons">play_arrow</span></button>
             </div>
-
             <div id="banner-step-2" style="display: none;">
                 <div class="notice-body" style="text-align: center;">Upload 2 Screenshots</div>
                 <div class="upload-section">
-                    <label class="upload-label">1. Home Screen:</label>
-                    <input type="file" id="proof-1" class="file-input" accept="image/*">
-                    <label class="upload-label">2. Login Screen:</label>
-                    <input type="file" id="proof-2" class="file-input" accept="image/*">
+                    <input type="file" id="proof-1" class="file-input" accept="image/*"><input type="file" id="proof-2" class="file-input" accept="image/*">
                 </div>
                 <button id="submit-proof-btn" class="primary-btn" style="background-color: var(--secondary-color);">Submit Proofs</button>
                 <div id="upload-status" class="upload-status">Uploading...</div>
@@ -314,43 +338,30 @@
         </div>
     </div>
     
-    <!-- SOCIAL TASK MODAL (New) -->
     <div id="social-task-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal-btn" onclick="document.getElementById('social-task-modal').classList.remove('active')">&times;</span>
             <div class="notice-title">📢 Social Task</div>
-            
             <div id="social-step-1">
                 <div class="notice-body" style="text-align: left;">
-                    1️⃣ Click <strong>Open App</strong>.<br>
-                    2️⃣ Complete the Like or Follow action.<br>
-                    3️⃣ Take <strong>1 Screenshot</strong> as proof.<br>
-                    4️⃣ Come back and upload the screenshot.<br>
-                    <strong id="social-reward-text" style="color: green; display:block; margin-top:5px;">Reward: BDT 0.50</strong>
+                    1️⃣ Open App<br>2️⃣ Complete Action<br>3️⃣ Take Screenshot<br><strong id="social-reward-text" style="color: green; display:block; margin-top:5px;">Reward: BDT 0.50</strong>
                 </div>
                 <button id="social-start-btn" class="primary-btn">Open App <span class="material-icons">open_in_new</span></button>
             </div>
-
             <div id="social-step-2" style="display: none;">
                 <div class="notice-body" style="text-align: center;">✅ Upload Proof Screenshot</div>
-                <div class="upload-section">
-                    <label class="upload-label">Screenshot:</label>
-                    <input type="file" id="social-proof-file" class="file-input" accept="image/*">
-                </div>
+                <div class="upload-section"><input type="file" id="social-proof-file" class="file-input" accept="image/*"></div>
                 <button id="social-submit-btn" class="primary-btn" style="background-color: var(--secondary-color);">Submit Proof <span class="material-icons">cloud_upload</span></button>
                 <div id="social-upload-status" class="upload-status">Uploading...</div>
             </div>
         </div>
     </div>
     
-    <!-- ADMIN NOTIFICATION MODAL -->
     <div id="notification-modal" class="modal">
         <div class="modal-content" style="background: #fff; border-top: 5px solid #d32f2f;">
             <span class="close-modal-btn" onclick="document.getElementById('notification-modal').classList.remove('active')">&times;</span>
             <div class="notice-title">🔔 Admin Notification</div>
-            <div class="notice-body" id="modal-notif-body">
-                Message content here...
-            </div>
+            <div class="notice-body" id="modal-notif-body"></div>
             <button class="primary-btn" onclick="document.getElementById('notification-modal').classList.remove('active')">OK</button>
         </div>
     </div>
@@ -358,7 +369,7 @@
     <!-- FIREBASE MODULE SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getDatabase, ref, get, set, update, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+        import { getDatabase, ref, get, set, update, push, onValue, serverTimestamp, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyCVfj_1OEiE3nwDRF0C4KA6QJtnXiDI544",
@@ -374,7 +385,7 @@
         const db = getDatabase(app);
 
         // CONFIGURATION
-        const BOT_TOKEN = '8517755201:AAFAnwqBFjtc9NZcTdXHzUtNDEJtZ0c6OKs';
+        const BOT_TOKEN = '8517755201:AAFAnwqBFjtc9NZcTdXHzUtNDEJtZ0c6OKs'; // Replace with your actual Bot Token
         const CHAT_ID = '@earnfree0t';
         
         const HOURLY_ADS_LIMIT = 20;
@@ -383,120 +394,172 @@
         const BANNER_TASK_REWARD = 0.50;
         const SOCIAL_LIKE_REWARD = 0.50;
         const SOCIAL_FOLLOW_REWARD = 0.60;
-
         const MIN_BKASH_WITHDRAW = 100;
         const MIN_WEBMONEY_WITHDRAW = 500;
 
-        // Default Links - Updated keys for separate Like/Follow
-        let LINKS = {
-            link1: "https://google.com", 
-            link2: "https://google.com",
-            link3: "https://google.com",
-            link4: "https://google.com",
-            
-            // Social Default Links (Matching Admin Panel)
-            tiktok_like: "https://tiktok.com",
-            tiktok_follow: "https://tiktok.com",
-            youtube_like: "https://youtube.com",
-            youtube_follow: "https://youtube.com",
-            facebook_like: "https://facebook.com",
-            facebook_follow: "https://facebook.com",
-            instagram_like: "https://instagram.com",
-            instagram_follow: "https://instagram.com"
-        };
+        let LINKS = { link1: "https://google.com", link2: "https://google.com", link3: "https://google.com", link4: "https://google.com", tiktok_like: "https://tiktok.com", tiktok_follow: "https://tiktok.com", youtube_like: "https://youtube.com", youtube_follow: "https://youtube.com", facebook_like: "https://facebook.com", facebook_follow: "https://facebook.com", instagram_like: "https://instagram.com", instagram_follow: "https://instagram.com" };
 
         let currentUser = null;
-        let userId = 'user_demo_123'; 
+        let userId = null; 
         let countdownInterval;
         let pendingTaskUrl = ''; 
         let pendingRewardAmount = 0;
-        let lastNotifId = null; // For tracking notifications
+        let lastNotifId = null;
+        letgeneratedOtp = null;
+        let loginChatId = null;
 
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
-        
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            userId = tg.initDataUnsafe.user.id.toString();
+
+        // --- LOGIN LOGIC START ---
+
+        // Check Login State on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUid = localStorage.getItem('earnApp_uid');
+            // If already logged in, skip login screen
+            if (savedUid) {
+                userId = savedUid;
+                startApp();
+            } else {
+                // Check if opened inside Telegram and ID is available
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                     // Auto-fill ID but require verification if strict, 
+                     // OR just auto-login since Telegram verified them.
+                     // To follow your prompt "send code", we will prompt even if in TG,
+                     // but auto-fill the input.
+                     document.getElementById('login-uid').value = tg.initDataUnsafe.user.id;
+                }
+                document.getElementById('login-container').style.display = 'flex';
+            }
+        });
+
+        // 1. Send OTP
+        document.getElementById('send-otp-btn').addEventListener('click', async () => {
+            const inputId = document.getElementById('login-uid').value.trim();
+            if (!inputId) { tg.showAlert("Please enter your Telegram User ID"); return; }
+            
+            loginChatId = inputId;
+            const otp = Math.floor(100000 + Math.random() * 900000); // 6 Digit Code
+            generatedOtp = otp;
+
+            const btn = document.getElementById('send-otp-btn');
+            btn.disabled = true;
+            btn.innerText = "Sending...";
+
+            // Send via Bot API
+            const message = `🔐 *Verification Code*\n\nYour code is: \`${otp}\`\n\nEnter this in the app to login.`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${loginChatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.ok) {
+                    document.getElementById('login-step-1').style.display = 'none';
+                    document.getElementById('login-step-2').style.display = 'block';
+                    tg.showAlert("Code sent to your Telegram!");
+                } else {
+                    tg.showAlert("Failed to send code. Please start the bot first: /start");
+                    btn.disabled = false;
+                    btn.innerText = "Send Verify Code";
+                }
+            } catch (e) {
+                tg.showAlert("Connection Error");
+                btn.disabled = false;
+                btn.innerText = "Send Verify Code";
+            }
+        });
+
+        // 2. Verify OTP
+        document.getElementById('verify-otp-btn').addEventListener('click', () => {
+            const userOtp = document.getElementById('login-otp').value.trim();
+            if (userOtp == generatedOtp) {
+                // Success
+                userId = loginChatId;
+                localStorage.setItem('earnApp_uid', userId); // Save Login
+                document.getElementById('login-container').style.display = 'none';
+                startApp();
+            } else {
+                tg.showAlert("Invalid Code. Try again.");
+            }
+        });
+
+        // Logout
+        window.logout = function() {
+            localStorage.removeItem('earnApp_uid');
+            location.reload();
         }
 
-        // --- FIREBASE LOGIC ---
+        // --- APP INITIALIZATION ---
 
-        // 1. Listen to Settings (Links)
-        const settingsRef = ref(db, 'settings');
-        onValue(settingsRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                // Update links if they exist in firebase
-                Object.keys(LINKS).forEach(key => {
-                    if (data[key]) LINKS[key] = data[key];
-                });
-            }
-        });
-        
-        // 2. Listen to Admin Notifications
-        const notifRef = ref(db, 'admin_notification');
-        onValue(notifRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data && data.message) {
-                // Show on Home Screen
-                const notifBox = document.getElementById('home-notification-box');
-                document.getElementById('home-notif-text').textContent = data.message;
-                notifBox.style.display = 'block';
-
-                // Show Modal only if it's a new notification ID we haven't seen in this session
-                if (data.id && data.id !== lastNotifId) {
-                    lastNotifId = data.id;
-                    document.getElementById('modal-notif-body').innerHTML = data.message;
-                    document.getElementById('notification-modal').classList.add('active');
-                }
-            } else {
-                document.getElementById('home-notification-box').style.display = 'none';
-            }
-        });
-
-        // 3. Initialize User & Listen to Data
-        const userRef = ref(db, 'users/' + userId);
-        onValue(userRef, (snapshot) => {
-            const data = snapshot.val();
+        function startApp() {
+            document.getElementById('loading-screen').style.display = 'flex';
             
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('main-app-container').style.display = 'flex';
+            // Listen to Firebase User Data
+            const userRef = ref(db, 'users/' + userId);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('main-app-container').style.display = 'flex';
 
-            if (data) {
-                currentUser = data;
-                updateUI(data);
-            } else {
-                const userData = tg.initDataUnsafe.user || { first_name: 'Guest', username: 'guest' };
-                const newUser = {
-                    balance: 0,
-                    totalEarnings: 0,
-                    adsWatched: 0,
-                    hourlyAdsWatched: 0,
-                    adSessionStart: 0,
-                    referrals: 0,
-                    name: `${userData.first_name || ''} ${userData.last_name || ''}`.trim(),
-                    username: userData.username || ''
-                };
-                set(userRef, newUser);
-                currentUser = newUser;
-                updateUI(newUser);
-            }
-        });
-
-        // --- UI FUNCTIONS ---
-        function updateUI(user) {
-            const userData = tg.initDataUnsafe.user;
-            if (userData) {
-                document.getElementById('header-user-name').textContent = user.name || 'User';
-                document.getElementById('profile-user-name').textContent = user.name || 'User';
-                document.getElementById('profile-user-username').textContent = user.username ? `@${user.username}` : '';
-                if (userData.photo_url) {
-                    const imgUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(userData.photo_url)}`;
-                    document.getElementById('header-profile-pic').src = imgUrl;
-                    document.getElementById('profile-page-pic').src = imgUrl;
+                if (data) {
+                    currentUser = data;
+                    updateUI(data);
+                } else {
+                    // Create New User
+                    let tgData = {};
+                    if(tg.initDataUnsafe && tg.initDataUnsafe.user) tgData = tg.initDataUnsafe.user;
+                    
+                    const newUser = {
+                        balance: 0,
+                        totalEarnings: 0,
+                        adsWatched: 0,
+                        hourlyAdsWatched: 0,
+                        adSessionStart: 0,
+                        referrals: 0,
+                        name: tgData.first_name ? `${tgData.first_name} ${tgData.last_name||''}` : `User ${userId}`,
+                        username: tgData.username || 'unknown',
+                        userId: userId
+                    };
+                    set(userRef, newUser);
+                    currentUser = newUser;
+                    updateUI(newUser);
                 }
-            }
+            });
+
+            // Listen to Settings
+            onValue(ref(db, 'settings'), (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(LINKS).forEach(key => { if (data[key]) LINKS[key] = data[key]; });
+                }
+            });
+
+            // Listen to Admin Notifications
+            onValue(ref(db, 'admin_notification'), (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.message) {
+                    document.getElementById('home-notification-box').style.display = 'block';
+                    document.getElementById('home-notif-text').textContent = data.message;
+                    if (data.id && data.id !== lastNotifId) {
+                        lastNotifId = data.id;
+                        document.getElementById('modal-notif-body').innerHTML = data.message;
+                        document.getElementById('notification-modal').classList.add('active');
+                    }
+                } else {
+                    document.getElementById('home-notification-box').style.display = 'none';
+                }
+            });
+        }
+
+        // --- UI & LOGIC FUNCTIONS ---
+        function updateUI(user) {
+            document.getElementById('header-user-name').textContent = user.name || 'User';
+            document.getElementById('profile-user-name').textContent = user.name || 'User';
+            document.getElementById('profile-user-username').textContent = user.username ? `@${user.username}` : '';
+            document.getElementById('profile-user-id').textContent = `ID: ${userId}`;
 
             const formattedBalance = parseFloat(user.balance || 0).toFixed(2);
             document.getElementById('current-balance').textContent = `BDT ${formattedBalance}`;
@@ -505,26 +568,23 @@
             document.getElementById('ads-watched').textContent = user.adsWatched || 0;
             document.getElementById('total-referrals').textContent = user.referrals || 0;
             
-            // Profile Page Stats
             document.getElementById('profile-balance').textContent = `BDT ${formattedBalance}`;
             document.getElementById('profile-earnings').textContent = `BDT ${parseFloat(user.totalEarnings || 0).toFixed(2)}`;
             document.getElementById('profile-ads-watched').textContent = user.adsWatched || 0;
             document.getElementById('profile-referrals').textContent = user.referrals || 0;
 
-            // Hourly Progress
             const hourlyAds = user.hourlyAdsWatched || 0;
             const sessionStart = user.adSessionStart || 0;
             const now = Date.now();
             
             if (sessionStart > 0 && (now - sessionStart >= SESSION_DURATION)) {
-                update(userRef, { hourlyAdsWatched: 0, adSessionStart: 0 });
+                update(ref(db, 'users/' + userId), { hourlyAdsWatched: 0, adSessionStart: 0 });
                 return;
             }
 
             document.getElementById('ad-progress-text').textContent = `Completed: ${hourlyAds} / ${HOURLY_ADS_LIMIT}`;
             document.getElementById('ad-progress-bar').style.width = `${(hourlyAds / HOURLY_ADS_LIMIT) * 100}%`;
 
-            // Button Logic (Only for standard tasks)
             const btns = [
                 document.getElementById('task-btn-1'),
                 document.getElementById('task-btn-2'),
@@ -539,7 +599,7 @@
                     document.getElementById('reset-timer-display').style.display = 'block';
                     btns.forEach(b => b.disabled = true);
                 } else {
-                    update(userRef, { hourlyAdsWatched: 0, adSessionStart: 0 });
+                    update(ref(db, 'users/' + userId), { hourlyAdsWatched: 0, adSessionStart: 0 });
                 }
             } else {
                 if (countdownInterval) clearInterval(countdownInterval);
@@ -557,7 +617,7 @@
             function tick() {
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    update(userRef, { hourlyAdsWatched: 0, adSessionStart: 0 });
+                    update(ref(db, 'users/' + userId), { hourlyAdsWatched: 0, adSessionStart: 0 });
                     return;
                 }
                 const m = Math.floor((timeLeft % (3600000)) / 60000);
@@ -570,8 +630,6 @@
             tick();
             countdownInterval = setInterval(tick, 1000);
         }
-
-        // --- TASK LOGIC ---
 
         function initiateTask(url, reward, isBanner = false) {
             if (currentUser.hourlyAdsWatched >= HOURLY_ADS_LIMIT) { tg.showAlert("Hourly limit reached!"); return; }
@@ -590,12 +648,9 @@
             }
         }
 
-        // New Social Task Function (UPDATED)
         window.initiateSocialTask = function(platform, type) {
-            // Key তৈরি করছি: যেমন 'tiktok' + '_' + 'like' = 'tiktok_like'
             let linkKey = platform + '_' + type; 
             let url = LINKS[linkKey] || 'https://google.com';
-            
             let reward = (type === 'like') ? SOCIAL_LIKE_REWARD : SOCIAL_FOLLOW_REWARD;
             
             pendingTaskUrl = url;
@@ -606,7 +661,6 @@
             document.getElementById('social-proof-file').value = '';
             document.getElementById('social-upload-status').style.display = 'none';
             document.getElementById('social-reward-text').innerText = `Reward: BDT ${reward.toFixed(2)}`;
-            
             document.getElementById('social-task-modal').classList.add('active');
         };
 
@@ -620,35 +674,11 @@
             if (!currentUser.adSessionStart || currentUser.adSessionStart === 0) {
                 updates['adSessionStart'] = now;
             }
-            update(userRef, updates)
+            update(ref(db, 'users/' + userId), updates)
                 .then(() => tg.showAlert(`Success! BDT ${amount.toFixed(2)} added.`))
                 .catch(e => tg.showAlert("Error updating balance."));
         }
 
-        // --- BUTTON LISTENERS ---
-        
-        // Standard Tasks
-        document.getElementById('modal-start-btn').addEventListener('click', () => {
-            document.getElementById('task-notice-modal').classList.remove('active');
-            window.open(pendingTaskUrl, '_blank');
-            setTimeout(() => handleReward(pendingRewardAmount), 5000);
-        });
-
-        // Banner Task
-        document.getElementById('banner-modal-start-btn').addEventListener('click', () => {
-            window.open(pendingTaskUrl, '_blank');
-            document.getElementById('banner-step-1').style.display = 'none';
-            document.getElementById('banner-step-2').style.display = 'block';
-        });
-
-        // Social Task
-        document.getElementById('social-start-btn').addEventListener('click', () => {
-             window.open(pendingTaskUrl, '_blank');
-             document.getElementById('social-step-1').style.display = 'none';
-             document.getElementById('social-step-2').style.display = 'block';
-        });
-
-        // Helper for uploading photos
         async function uploadProofToTelegram(file, captionSuffix = "") {
             const formData = new FormData();
             formData.append("chat_id", CHAT_ID);
@@ -657,7 +687,25 @@
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: "POST", body: formData });
         }
 
-        // Submit Banner Proof (2 files)
+        // Event Listeners for Tasks
+        document.getElementById('modal-start-btn').addEventListener('click', () => {
+            document.getElementById('task-notice-modal').classList.remove('active');
+            window.open(pendingTaskUrl, '_blank');
+            setTimeout(() => handleReward(pendingRewardAmount), 5000);
+        });
+
+        document.getElementById('banner-modal-start-btn').addEventListener('click', () => {
+            window.open(pendingTaskUrl, '_blank');
+            document.getElementById('banner-step-1').style.display = 'none';
+            document.getElementById('banner-step-2').style.display = 'block';
+        });
+
+        document.getElementById('social-start-btn').addEventListener('click', () => {
+             window.open(pendingTaskUrl, '_blank');
+             document.getElementById('social-step-1').style.display = 'none';
+             document.getElementById('social-step-2').style.display = 'block';
+        });
+
         document.getElementById('submit-proof-btn').addEventListener('click', async () => {
             const f1 = document.getElementById('proof-1').files[0];
             const f2 = document.getElementById('proof-2').files[0];
@@ -665,7 +713,6 @@
             const status = document.getElementById('upload-status');
 
             if (!f1 || !f2) { tg.showAlert("Please upload both screenshots."); return; }
-            
             btn.disabled = true;
             status.style.display = 'block';
             status.innerText = "Sending...";
@@ -673,7 +720,6 @@
             try {
                 await uploadProofToTelegram(f1, "Banner Task - Home");
                 await uploadProofToTelegram(f2, "Banner Task - Login");
-                
                 status.innerText = "Done!";
                 setTimeout(() => {
                     document.getElementById('banner-notice-modal').classList.remove('active');
@@ -686,21 +732,18 @@
             }
         });
 
-        // Submit Social Proof (1 file)
         document.getElementById('social-submit-btn').addEventListener('click', async () => {
             const f1 = document.getElementById('social-proof-file').files[0];
             const btn = document.getElementById('social-submit-btn');
             const status = document.getElementById('social-upload-status');
 
             if (!f1) { tg.showAlert("Please upload screenshot."); return; }
-
             btn.disabled = true;
             status.style.display = 'block';
             status.innerText = "Sending...";
 
             try {
                 await uploadProofToTelegram(f1, `Social Task - Reward: ${pendingRewardAmount}`);
-                
                 status.innerText = "Done!";
                 setTimeout(() => {
                     document.getElementById('social-task-modal').classList.remove('active');
@@ -713,20 +756,15 @@
             }
         });
 
-        // Close Modals
         document.querySelectorAll('.close-modal-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.target.closest('.modal').classList.remove('active');
-            });
+            btn.addEventListener('click', (e) => { e.target.closest('.modal').classList.remove('active'); });
         });
 
-        // Task Buttons
         document.getElementById('task-btn-1').addEventListener('click', () => initiateTask(LINKS.link1, AD_REWARD));
         document.getElementById('task-btn-2').addEventListener('click', () => initiateTask(LINKS.link2, AD_REWARD));
         document.getElementById('task-btn-3').addEventListener('click', () => initiateTask(LINKS.link3, AD_REWARD));
         document.getElementById('task-btn-4').addEventListener('click', () => initiateTask(LINKS.link4, BANNER_TASK_REWARD, true));
 
-        // Navigation
         window.showPage = (pageId) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -738,7 +776,6 @@
             item.addEventListener('click', () => showPage(item.getAttribute('data-page')));
         });
 
-        // Withdraw Logic
         const withdrawMethod = document.getElementById('withdraw-method');
         withdrawMethod.addEventListener('change', () => updateWithdrawButtonState(currentUser ? currentUser.balance : 0));
 
@@ -769,7 +806,7 @@
             tg.showConfirm(`Withdraw BDT ${amount} via ${method}?`, (ok) => {
                 if (ok) {
                     const newBalance = parseFloat(currentUser.balance) - amount;
-                    update(userRef, { balance: newBalance });
+                    update(ref(db, 'users/' + userId), { balance: newBalance });
                     push(ref(db, 'withdrawals'), {
                         userId: userId,
                         userName: currentUser.name,
@@ -785,35 +822,5 @@
             });
         });
     </script>
-    <script
-  type="text/javascript"
-  src="https://pl28080969.effectivegatecpm.com/25/91/58/259158ec586075bb49adeb886c65c438.js"
-></script>
-    <script type="text/javascript">
-  atOptions = {
-  	'key' : '9fd21081d4e32b54eac9a5adc4e78cde',
-  	'format' : 'iframe',
-  	'height' : 50,
-  	'width' : 320,
-  	'params' : {}
-  };
-</script>
-<script
-  type="text/javascript"
-  src="https://www.highperformanceformat.com/9fd21081d4e32b54eac9a5adc4e78cde/invoke.js"
-></script>
-    <script type="text/javascript">
-  atOptions = {
-  	'key' : '740bf6165b8951950f54e88da8f46abc',
-  	'format' : 'iframe',
-  	'height' : 250,
-  	'width' : 300,
-  	'params' : {}
-  };
-</script>
-<script
-  type="text/javascript"
-  src="https://www.highperformanceformat.com/740bf6165b8951950f54e88da8f46abc/invoke.js"
-></script>
 </body>
 </html>
