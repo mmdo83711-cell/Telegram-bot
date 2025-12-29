@@ -1,12 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- External Scripts remain unchanged -->
-    <script
-  async="async"
-  data-cfasync="false"
-  src="https://pl28087364.effectivegatecpm.com/5f0b65d762714132d66c6ba8945349f3/invoke.js"
-></script>
-<div id="container-5f0b65d762714132d66c6ba8945349f3"></div>    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +7,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Telegram SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- Rewarded Interstitial SDK -->
+    <!-- NEW Rewarded Interstitial SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10347382' data-sdk='show_10347382'></script>
 
     <style>
@@ -28,7 +22,7 @@
             --text-color: #333333;
             --light-text-color: #888888;
             --border-color: #e0e0e0;
-            --rewarded-color: #673ab7; /* New Color for Rewarded Ad */
+            --special-task-color: #673ab7;
         }
 
         body {
@@ -49,6 +43,7 @@
             flex-direction: column;
         }
 
+        /* Header Styles */
         .header {
             display: flex;
             align-items: center;
@@ -70,15 +65,8 @@
             object-fit: cover;
         }
 
-        .header-user-info {
-            flex-grow: 1;
-        }
-
-        .header-user-info h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
+        .header-user-info { flex-grow: 1; }
+        .header-user-info h3 { margin: 0; font-size: 16px; font-weight: 600; }
 
         .user-id-wrapper {
             display: flex;
@@ -94,13 +82,10 @@
             color: var(--primary-color);
             padding: 2px;
         }
-        
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
 
+        .content { flex-grow: 1; padding: 20px; overflow-y: auto; }
+
+        /* Card Styles */
         .card {
             background-color: var(--background-color);
             border-radius: 12px;
@@ -115,143 +100,67 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 15px;
-            color: var(--text-color);
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
-        .card-header .material-icons, .card-header .fa-solid, .card-header .fa-brands {
-            margin-right: 8px;
-            color: var(--primary-color);
-        }
+        .card-header .material-icons { margin-right: 8px; color: var(--primary-color); }
 
-        .balance-card .balance {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--secondary-color);
-            margin: 10px 0;
-        }
+        .balance { font-size: 32px; font-weight: 700; color: var(--secondary-color); margin: 10px 0; }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .dashboard-item { background-color: var(--card-background); border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
 
-        .dashboard-item {
-            background-color: var(--card-background);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .dashboard-item-value {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
+        /* Buttons */
         .primary-btn, .secondary-btn {
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s, transform 0.2s;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            box-sizing: border-box;
+            border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: 600;
+            cursor: pointer; width: 100%; transition: 0.3s; margin-top: 15px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-        
         .primary-btn { background-color: var(--primary-color); color: #fff; }
         .primary-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        .secondary-btn { background-color: #f0f0f0; color: var(--text-color); border: 1px solid var(--border-color); }
 
-        .progress-bar-container {
-            height: 10px;
-            background-color: #eee;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
+        /* Progress Bar */
+        .progress-bar-container { height: 10px; background-color: #eee; border-radius: 5px; overflow: hidden; margin-top: 10px; }
+        .progress-bar { height: 100%; background-color: var(--primary-color); width: 0; transition: 0.5s; }
 
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary-color);
-            width: 0;
-            transition: width 0.5s ease-in-out;
-        }
-
+        /* Footer Nav */
         .footer-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 450px;
-            background-color: var(--card-background);
-            border-top: 1px solid var(--border-color);
-            z-index: 1000;
+            display: flex; justify-content: space-around; align-items: center;
+            position: fixed; bottom: 0; width: 100%; max-width: 450px;
+            background-color: var(--card-background); border-top: 1px solid var(--border-color);
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            cursor: pointer;
-            color: var(--light-text-color);
-            flex: 1;
-        }
-
+        .nav-item { display: flex; flex-direction: column; align-items: center; padding: 10px; cursor: pointer; color: var(--light-text-color); flex: 1; }
         .nav-item.active { color: var(--primary-color); }
+        .nav-item .material-icons { font-size: 24px; }
+        .nav-item-label { font-size: 11px; }
 
         .page { display: none; }
         .page.active { display: block; }
-        
-        .withdraw-form-container, .support-form-container, .profile-info {
-            background-color: var(--card-background);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid var(--border-color);
-        }
 
         /* Modal Styles */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center;
         }
         .modal.active { display: flex; }
-        .modal-content {
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            width: 85%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
-        }
+        .modal-content { background-color: #fff; padding: 25px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; }
+        .close-modal-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; }
+
+        /* Profile & Forms */
+        .profile-info, .withdraw-form-container, .support-form-container { background-color: var(--card-background); border-radius: 12px; padding: 20px; margin-top: 20px; border: 1px solid var(--border-color); }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); box-sizing: border-box; }
+        
+        .upload-section { margin-top: 15px; text-align: left; }
+        .file-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <header class="header">
             <img id="header-profile-pic" src="https://via.placeholder.com/40" alt="Profile" class="header-profile-pic">
             <div class="header-user-info">
@@ -264,135 +173,159 @@
         </header>
 
         <main class="content">
-            <!-- Home Page -->
+            <!-- HOME PAGE -->
             <section id="home-page" class="page active">
                 <div class="card balance-card">
-                    <h2 class="card-header">
-                        <span class="material-icons">account_balance_wallet</span>
-                        My Balance
-                    </h2>
-                    <div class="balance" id="current-balance">BDT 0.00</div>
-                    <button class="primary-btn" id="start-earning-btn">
-                        Start Earning Now <span class="material-icons">arrow_forward</span>
-                    </button>
+                    <h2 class="card-header"><span class="material-icons">account_balance_wallet</span>My Balance</h2>
+                    <div class="balance" id="current-balance">BDT 0.000</div>
+                    <button class="primary-btn" id="start-earning-btn">Start Earning <span class="material-icons">arrow_forward</span></button>
+                    <button class="secondary-btn" id="withdraw-btn-home">Withdraw <span class="material-icons">currency_exchange</span></button>
                 </div>
                 <div class="dashboard-grid">
                     <div class="dashboard-item">
-                        <span class="material-icons" style="color: var(--secondary-color);">attach_money</span>
-                        <div class="dashboard-item-value" id="total-earnings">BDT 0.00</div>
-                        <div class="dashboard-item-label">Total Earnings</div>
+                        <div class="dashboard-item-value" id="total-earnings">BDT 0.000</div>
+                        <div style="font-size:11px; color:gray;">Total Earnings</div>
                     </div>
                     <div class="dashboard-item">
-                        <span class="material-icons" style="color: #ffc107;">visibility</span>
                         <div class="dashboard-item-value" id="ads-watched">0</div>
-                        <div class="dashboard-item-label">Ads Watched</div>
+                        <div style="font-size:11px; color:gray;">Total Ads</div>
                     </div>
+                </div>
+                <div class="card" style="margin-top:20px;">
+                    <div class="card-header"><span class="material-icons">group</span>Total Referrals</div>
+                    <div id="total-referrals" style="font-size:24px; font-weight:700;">0</div>
                 </div>
             </section>
 
-            <!-- Earn Page -->
+            <!-- EARN PAGE -->
             <section id="earn-page" class="page">
+                <!-- Hourly Progress -->
                 <div class="card" style="padding: 15px;">
-                     <div style="text-align: left; margin-bottom: 10px;">
-                        <div style="font-size: 14px; font-weight: 600;">Hourly Task Progress:</div>
-                        <div style="font-size: 12px; color: var(--light-text-color);" id="ad-progress-text">Completed: 0 / 20</div>
-                        <div id="reset-timer-display" style="font-size: 12px; color: #d32f2f; display: none; font-weight: bold;"></div>
-                    </div>
+                    <div style="text-align: left; font-size: 14px; font-weight: 600;">Hourly Task Progress:</div>
+                    <div id="ad-progress-text" style="font-size: 12px; color: gray;">Completed: 0 / 20</div>
+                    <div id="reset-timer-display" style="font-size: 12px; color: red; font-weight: bold; display: none;"></div>
                     <div class="progress-bar-container">
                         <div class="progress-bar" id="ad-progress-bar"></div>
                     </div>
                 </div>
 
-                <!-- --- NEW REWARDED AD TASK (Task 5) --- -->
-                <div class="card" style="border: 2px solid var(--rewarded-color);">
-                    <h2 class="card-header">
-                        <span class="material-icons" style="color: var(--rewarded-color);">play_circle_filled</span>
-                        Rewarded Video Ad
-                    </h2>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
-                        সম্পূর্ণ ভিডিওটি দেখুন এবং প্রতিটি ভিডিওর জন্য <b>BDT 0.030</b> আয় করুন।
-                    </p>
-                    <button class="primary-btn" id="task-btn-rewarded" style="background-color: var(--rewarded-color);">
-                        Watch Video Ad
-                        <span class="material-icons">smart_display</span>
+                <!-- --- NEW REWARDED VIDEO TASK --- -->
+                <div class="card" style="border: 2px solid var(--special-task-color);">
+                    <h2 class="card-header"><span class="material-icons" style="color:var(--special-task-color);">smart_display</span>Rewarded Video</h2>
+                    <p style="font-size: 13px; color: #666;">ভিডিও অ্যাডটি দেখুন এবং আয় করুন।</p>
+                    <div style="color: var(--secondary-color); font-weight: bold; margin-bottom: 10px;">Reward: BDT 0.030</div>
+                    <button class="primary-btn" id="task-btn-rewarded" style="background-color: var(--special-task-color);">
+                        Watch Ad <span class="material-icons">play_circle</span>
                     </button>
                 </div>
 
-                <!-- Existing Tasks -->
+                <!-- TASK 1-3 -->
                 <div class="card">
-                    <h2 class="card-header"><span class="material-icons">task</span>Task 1</h2>
-                    <button class="primary-btn" id="task-btn-1">Start Task 1 <span class="material-icons">open_in_new</span></button>
+                    <h2 class="card-header">Premium Task 1</h2>
+                    <button class="primary-btn" id="task-btn-1">Start Task 1</button>
+                </div>
+                <div class="card">
+                    <h2 class="card-header">Premium Task 2</h2>
+                    <button class="primary-btn" id="task-btn-2">Start Task 2</button>
+                </div>
+                <div class="card">
+                    <h2 class="card-header">Premium Task 3</h2>
+                    <button class="primary-btn" id="task-btn-3">Start Task 3</button>
                 </div>
 
-                <div class="card">
-                    <h2 class="card-header"><span class="material-icons">verified</span>Task 2</h2>
-                    <button class="primary-btn" id="task-btn-2">Start Task 2 <span class="material-icons">open_in_new</span></button>
-                </div>
-
-                <div class="card">
-                    <h2 class="card-header"><span class="material-icons">star</span>Task 3</h2>
-                    <button class="primary-btn" id="task-btn-3">Start Task 3 <span class="material-icons">open_in_new</span></button>
-                </div>
-
+                <!-- BANNER TASK 4 -->
                 <div class="card" style="border: 2px solid var(--secondary-color);">
-                    <h2 class="card-header"><span class="material-icons">camera_alt</span>Task 4</h2>
-                    <button class="primary-btn" id="task-btn-4" style="background-color: var(--secondary-color);">Start Task 4 <span class="material-icons">open_in_new</span></button>
+                    <h2 class="card-header"><span class="material-icons" style="color:var(--secondary-color);">camera_alt</span>Banner Task 4</h2>
+                    <p style="font-size: 13px;">স্ক্রিনশট জমা দিয়ে আয় করুন <b>BDT 0.50</b></p>
+                    <button class="primary-btn" id="task-btn-4" style="background-color: var(--secondary-color);">Start Task 4</button>
                 </div>
 
+                <!-- TIKTOK TASK -->
                 <div class="card" style="border: 2px solid #000;">
                     <h2 class="card-header"><span class="fa-brands fa-tiktok"></span>TikTok Follow</h2>
-                    <button class="primary-btn" id="task-btn-tiktok" style="background-color: #000;">Follow TikTok <span class="material-icons">open_in_new</span></button>
+                    <button class="primary-btn" id="task-btn-tiktok" style="background-color: #000;">Follow TikTok</button>
                 </div>
             </section>
-            
-            <!-- Withdraw Page -->
+
+            <!-- WITHDRAW PAGE -->
             <section id="withdraw-page" class="page">
                 <div class="card">
-                    <h2 class="card-header">Withdraw Earnings</h2>
-                    <div class="balance" id="withdraw-balance-display">BDT 0.00</div>
+                    <h2>Withdraw</h2>
+                    <div class="balance" id="withdraw-balance-display">BDT 0.000</div>
+                    <p style="font-size:12px; color:gray;">Min: bKash 100 | WebMoney 500</p>
                 </div>
                 <div class="withdraw-form-container">
                     <form id="withdraw-form">
-                        <div class="form-group"><label>Method</label><select id="withdraw-method" required><option value="bkash">bKash (Min 100)</option><option value="webmoney">WebMoney (Min 500)</option></select></div>
-                        <div class="form-group"><label>Account</label><input type="text" id="account-number" placeholder="Number" required></div>
-                        <div class="form-group"><label>Amount</label><input type="number" id="withdraw-amount" required></div>
+                        <div class="form-group"><label>Method</label>
+                        <select id="withdraw-method" required>
+                            <option value="bkash">bKash</option>
+                            <option value="webmoney">WebMoney</option>
+                        </select></div>
+                        <div class="form-group"><label>Account Number</label><input type="text" id="account-number" required></div>
+                        <div class="form-group"><label>Amount (BDT)</label><input type="number" id="withdraw-amount" required></div>
                         <button type="submit" class="primary-btn" id="submit-withdraw-btn">Submit Request</button>
                     </form>
                 </div>
             </section>
 
-            <!-- Profile Page -->
+            <!-- PROFILE PAGE -->
             <section id="profile-page" class="page">
                 <div class="card">
-                    <div class="profile-pic-container"><img id="profile-page-pic" src="https://via.placeholder.com/80" class="profile-pic" style="width:80px; height:80px; border-radius:50%;"></div>
+                    <img id="profile-page-pic" src="https://via.placeholder.com/80" style="width:80px; height:80px; border-radius:50%; border:3px solid var(--primary-color);">
                     <h3 id="profile-user-name">User</h3>
-                    <div class="user-id-wrapper" style="justify-content:center;">ID: <span id="profile-user-id">...</span></div>
+                    <div class="user-id-wrapper" style="justify-content: center;">
+                        ID: <span id="profile-user-id" style="font-weight:bold;">...</span>
+                        <span class="material-icons copy-icon" id="profile-copy-btn">content_copy</span>
+                    </div>
                 </div>
+                <!-- Support Form -->
                 <div class="support-form-container">
-                    <h4>Support Message</h4>
+                    <h4><span class="material-icons">support_agent</span> Support</h4>
                     <form id="support-form">
-                        <textarea id="support-message" style="width:100%; height:80px;" placeholder="Message..." required></textarea>
+                        <textarea id="support-message" placeholder="আপনার সমস্যাটি লিখুন..." required></textarea>
                         <button type="submit" class="secondary-btn" id="send-support-btn">Send Message</button>
                     </form>
                 </div>
             </section>
         </main>
 
+        <!-- FOOTER NAVIGATION -->
         <nav class="footer-nav">
-            <div class="nav-item active" data-page="home-page"><span class="material-icons">home</span><span>Home</span></div>
-            <div class="nav-item" data-page="earn-page"><span class="material-icons">play_circle</span><span>Earn</span></div>
-            <div class="nav-item" data-page="withdraw-page"><span class="fa-solid fa-credit-card"></span><span>Withdraw</span></div>
-            <div class="nav-item" data-page="profile-page"><span class="material-icons">person</span><span>Profile</span></div>
+            <div class="nav-item active" data-page="home-page"><span class="material-icons">home</span><span class="nav-item-label">Home</span></div>
+            <div class="nav-item" data-page="earn-page"><span class="material-icons">play_circle</span><span class="nav-item-label">Earn</span></div>
+            <div class="nav-item" data-page="withdraw-page"><span class="fa-solid fa-credit-card"></span><span class="nav-item-label">Withdraw</span></div>
+            <div class="nav-item" data-page="profile-page"><span class="material-icons">person</span><span class="nav-item-label">Profile</span></div>
         </nav>
     </div>
 
-    <!-- Modals (Notice & Banner) remain as they were -->
+    <!-- MODAL FOR TASK 1-3 -->
     <div id="task-notice-modal" class="modal">
         <div class="modal-content">
-            <span id="close-modal-btn" style="position:absolute; right:15px; cursor:pointer; font-size:24px;">&times;</span>
-            <h3>📢 নোটিশ</h3>
-            <p>ওয়েবসাইটে ১০ সেকেন্ড অপেক্ষা করুন।</p>
+            <span class="close-modal-btn" id="close-modal-btn">&times;</span>
+            <div style="color:red; font-weight:bold; margin-bottom:10px;">📢 গুরুত্বপূর্ণ নোটিশ</div>
+            <p style="font-size:14px; text-align:left;">Start বাটনে ক্লিক করার পর সাইটে ১০ সেকেন্ড অপেক্ষা করুন। ৫ বার করার পর ৬ষ্ঠ বার অবশ্যই অ্যাকাউন্ট খুলতে হবে।</p>
             <button id="modal-start-btn" class="primary-btn">Start</button>
+        </div>
+    </div>
+
+    <!-- MODAL FOR BANNER TASK 4 (SCREENSHOT UPLOAD) -->
+    <div id="banner-notice-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn" id="close-banner-modal-btn">&times;</span>
+            <div id="banner-step-1">
+                <h3>টাস্ক নিয়ম</h3>
+                <p>সাইটে গিয়ে একাউন্ট খুলুন এবং ২টি স্ক্রিনশট নিন।</p>
+                <button id="banner-modal-start-btn" class="primary-btn">Start Task</button>
+            </div>
+            <div id="banner-step-2" style="display:none;">
+                <h4>প্রমাণ আপলোড করুন</h4>
+                <div class="upload-section">
+                    <label>১ম স্ক্রিনশট:</label><input type="file" id="proof-1" class="file-input" accept="image/*">
+                    <label>২য় স্ক্রিনশট:</label><input type="file" id="proof-2" class="file-input" accept="image/*">
+                </div>
+                <button id="submit-proof-btn" class="primary-btn">Submit Proofs</button>
+                <div id="upload-status" style="display:none; font-size:12px; color:green; margin-top:5px;">Uploading...</div>
+            </div>
         </div>
     </div>
 
@@ -402,22 +335,23 @@
             tg.ready();
             tg.expand();
             const userData = tg.initDataUnsafe.user;
-            
-            let uniqueUserId = userData ? userData.id : (localStorage.getItem('generated_user_id') || Math.floor(10000000 + Math.random() * 90000000));
+
+            // USER ID Logic
+            let uniqueUserId = userData ? userData.id : (localStorage.getItem('generated_user_id') || Math.floor(Math.random()*90000000)+10000000);
             if(!userData) localStorage.setItem('generated_user_id', uniqueUserId);
 
-            // --- Configuration ---
-            const HOURLY_ADS_LIMIT = 20;
-            const SESSION_DURATION = 3600000;
+            // Configurations
             const AD_REWARD = 0.02;
             const BANNER_REWARD = 0.50;
             const TIKTOK_REWARD = 0.50;
-            const REWARDED_INTERSTITIAL_REWARD = 0.030; // নতুন ট্যাক্স এর মূল্য
+            const REWARDED_VIDEO_REWARD = 0.030; // আপনার নতুন রিওয়ার্ড
+            const HOURLY_LIMIT = 20;
+            const SESSION_TIME = 3600000;
 
             const BOT_TOKEN = '8517755201:AAFAnwqBFjtc9NZcTdXHzUtNDEJtZ0c6OKs';
             const CHAT_ID = '@earnfree0t';
 
-            // URLs
+            // Links
             const LINKS = [
                 "https://www.effectivegatecpm.com/u48g35c7?key=a8182d67355e7a5481130df6feb71a4d",
                 "https://www.effectivegatecpm.com/ch689ym0?key=0e197e3a615e2d975fc4082a906ddd33",
@@ -425,111 +359,199 @@
                 "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4"
             ];
 
-            // Local Storage Init
-            if (!localStorage.getItem('earnings')) localStorage.setItem('earnings', '0');
-            if (!localStorage.getItem('adsWatched')) localStorage.setItem('adsWatched', '0');
-            if (!localStorage.getItem('hourlyAdsWatched')) localStorage.setItem('hourlyAdsWatched', '0');
-            if (!localStorage.getItem('adSessionStart')) localStorage.setItem('adSessionStart', '0');
+            // LocalStorage Init
+            if(!localStorage.getItem('earnings')) localStorage.setItem('earnings', '0');
+            if(!localStorage.getItem('adsWatched')) localStorage.setItem('adsWatched', '0');
+            if(!localStorage.getItem('hourlyAdsWatched')) localStorage.setItem('hourlyAdsWatched', '0');
+            if(!localStorage.getItem('adSessionStart')) localStorage.setItem('adSessionStart', '0');
 
             function updateUI() {
                 const earnings = parseFloat(localStorage.getItem('earnings'));
                 const totalAds = parseInt(localStorage.getItem('adsWatched'));
                 const hourlyAds = parseInt(localStorage.getItem('hourlyAdsWatched'));
                 
-                document.getElementById('current-balance').textContent = `BDT ${earnings.toFixed(3)}`;
-                document.getElementById('total-earnings').textContent = `BDT ${earnings.toFixed(3)}`;
-                document.getElementById('ads-watched').textContent = totalAds;
-                document.getElementById('header-user-id').textContent = uniqueUserId;
-                document.getElementById('ad-progress-text').textContent = `Completed: ${hourlyAds} / ${HOURLY_ADS_LIMIT}`;
-                document.getElementById('ad-progress-bar').style.width = `${(hourlyAds/HOURLY_ADS_LIMIT)*100}%`;
+                document.getElementById('current-balance').innerText = `BDT ${earnings.toFixed(3)}`;
+                document.getElementById('total-earnings').innerText = `BDT ${earnings.toFixed(3)}`;
+                document.getElementById('withdraw-balance-display').innerText = `BDT ${earnings.toFixed(3)}`;
+                document.getElementById('ads-watched').innerText = totalAds;
+                document.getElementById('header-user-id').innerText = uniqueUserId;
+                document.getElementById('profile-user-id').innerText = uniqueUserId;
+                
+                // Progress
+                document.getElementById('ad-progress-text').innerText = `Completed: ${hourlyAds} / ${HOURLY_LIMIT}`;
+                document.getElementById('ad-progress-bar').style.width = `${(hourlyAds/HOURLY_LIMIT)*100}%`;
 
-                if (hourlyAds >= HOURLY_ADS_LIMIT) {
-                    const btnRewarded = document.getElementById('task-btn-rewarded');
-                    btnRewarded.disabled = true;
-                    btnRewarded.innerText = "Limit Reached";
+                // Handle Profile Pic
+                if(userData && userData.photo_url) {
+                    const pic = `https://api.allorigins.win/raw?url=${encodeURIComponent(userData.photo_url)}`;
+                    document.getElementById('header-profile-pic').src = pic;
+                    document.getElementById('profile-page-pic').src = pic;
+                }
+                
+                // Timer Logic
+                const sessionStart = parseInt(localStorage.getItem('adSessionStart'));
+                if(hourlyAds >= HOURLY_LIMIT && sessionStart > 0) {
+                    const timeLeft = SESSION_TIME - (Date.now() - sessionStart);
+                    if(timeLeft > 0) {
+                        document.getElementById('reset-timer-display').style.display = 'block';
+                        disableTasks(true, timeLeft);
+                    } else {
+                        localStorage.setItem('hourlyAdsWatched', '0');
+                        localStorage.setItem('adSessionStart', '0');
+                        disableTasks(false);
+                    }
+                } else {
+                    disableTasks(false);
                 }
             }
 
-            // --- REWARDED AD LOGIC ---
-            document.getElementById('task-btn-rewarded').addEventListener('click', () => {
-                const hourlyAds = parseInt(localStorage.getItem('hourlyAdsWatched'));
-                if (hourlyAds >= HOURLY_ADS_LIMIT) {
-                    tg.showAlert("আপনার এক ঘণ্টার লিমিট শেষ। কিছুক্ষণ পর চেষ্টা করুন।");
-                    return;
-                }
-
-                // Call SDK function
-                show_10347382().then(() => {
-                    handleReward(REWARDED_INTERSTITIAL_REWARD);
-                }).catch(err => {
-                    tg.showAlert("বিজ্ঞাপন লোড হতে পারেনি। আবার চেষ্টা করুন।");
+            function disableTasks(disabled, timeLeft) {
+                const btns = [document.getElementById('task-btn-1'), document.getElementById('task-btn-2'), document.getElementById('task-btn-3'), document.getElementById('task-btn-4'), document.getElementById('task-btn-rewarded')];
+                btns.forEach(btn => {
+                    btn.disabled = disabled;
+                    if(disabled) {
+                        const mins = Math.floor(timeLeft/60000);
+                        document.getElementById('reset-timer-display').innerText = `Next ads in ${mins}m`;
+                    }
                 });
+            }
+
+            // --- REWARDED VIDEO TASK (NEW) ---
+            document.getElementById('task-btn-rewarded').addEventListener('click', () => {
+                show_10347382().then(() => {
+                    handleReward(REWARDED_VIDEO_REWARD);
+                }).catch(e => tg.showAlert("Ad loading failed."));
             });
 
+            // Handle Reward Function
             function handleReward(amount) {
-                let earnings = parseFloat(localStorage.getItem('earnings')) + amount;
-                let totalAds = parseInt(localStorage.getItem('adsWatched')) + 1;
-                let hourlyAds = parseInt(localStorage.getItem('hourlyAdsWatched')) + 1;
+                let e = parseFloat(localStorage.getItem('earnings')) + amount;
+                let t = parseInt(localStorage.getItem('adsWatched')) + 1;
+                let h = parseInt(localStorage.getItem('hourlyAdsWatched')) + 1;
 
-                if (localStorage.getItem('adSessionStart') === '0') {
-                    localStorage.setItem('adSessionStart', Date.now().toString());
-                }
+                if(localStorage.getItem('adSessionStart') === '0') localStorage.setItem('adSessionStart', Date.now().toString());
 
-                localStorage.setItem('earnings', earnings.toString());
-                localStorage.setItem('adsWatched', totalAds.toString());
-                localStorage.setItem('hourlyAdsWatched', hourlyAds.toString());
+                localStorage.setItem('earnings', e.toString());
+                localStorage.setItem('adsWatched', t.toString());
+                localStorage.setItem('hourlyAdsWatched', h.toString());
                 
-                tg.showAlert(`অভিনন্দন! আপনি BDT ${amount.toFixed(3)} বোনাস পেয়েছেন।`);
+                tg.showAlert(`অভিনন্দন! আপনি BDT ${amount.toFixed(3)} আয় করেছেন!`);
                 updateUI();
             }
 
-            // Nav logic
+            // Copy ID Function
+            function copyID(id) {
+                const el = document.createElement('textarea');
+                el.value = id;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                tg.showAlert("ID Copied!");
+            }
+            document.getElementById('header-copy-btn').onclick = () => copyID(uniqueUserId);
+            document.getElementById('profile-copy-btn').onclick = () => copyID(uniqueUserId);
+
+            // Nav Logic
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                item.onclick = () => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                     item.classList.add('active');
-                    document.getElementById(item.getAttribute('data-page')).classList.add('active');
-                });
+                    document.getElementById(item.dataset.page).classList.add('active');
+                };
             });
 
-            // Standard Tasks
-            [1, 2, 3].forEach(i => {
-                document.getElementById(`task-btn-${i}`).addEventListener('click', () => {
-                    window.open(LINKS[i-1], '_blank');
-                    setTimeout(() => handleReward(AD_REWARD), 5000);
-                });
-            });
+            // Withdraw Home Button
+            document.getElementById('withdraw-btn-home').onclick = () => {
+                document.querySelector('[data-page="withdraw-page"]').click();
+            };
 
-            document.getElementById('task-btn-tiktok').addEventListener('click', () => {
-                window.open("https://www.tiktok.com/@bhola_king0", '_blank');
+            // Support Form
+            document.getElementById('support-form').onsubmit = async (e) => {
+                e.preventDefault();
+                const msg = document.getElementById('support-message').value;
+                const fullMsg = `🆘 Support Required\nID: ${uniqueUserId}\nMsg: ${msg}`;
+                
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({chat_id: CHAT_ID, text: fullMsg})
+                });
+                if(res.ok) {
+                    tg.showAlert("মেসেজ পাঠানো হয়েছে!");
+                    document.getElementById('support-message').value = '';
+                }
+            };
+
+            // Task 1-3 Modals
+            let activeUrl = "";
+            [1,2,3].forEach(i => {
+                document.getElementById(`task-btn-${i}`).onclick = () => {
+                    activeUrl = LINKS[i-1];
+                    document.getElementById('task-notice-modal').classList.add('active');
+                };
+            });
+            document.getElementById('modal-start-btn').onclick = () => {
+                window.open(activeUrl, '_blank');
+                document.getElementById('task-notice-modal').classList.remove('active');
+                setTimeout(() => handleReward(AD_REWARD), 5000);
+            };
+            document.getElementById('close-modal-btn').onclick = () => document.getElementById('task-notice-modal').classList.remove('active');
+
+            // Task 4 (Banner)
+            document.getElementById('task-btn-4').onclick = () => {
+                document.getElementById('banner-notice-modal').classList.add('active');
+                document.getElementById('banner-step-1').style.display = 'block';
+                document.getElementById('banner-step-2').style.display = 'none';
+            };
+            document.getElementById('banner-modal-start-btn').onclick = () => {
+                window.open(LINKS[3], '_blank');
+                document.getElementById('banner-step-1').style.display = 'none';
+                document.getElementById('banner-step-2').style.display = 'block';
+            };
+            document.getElementById('submit-proof-btn').onclick = async () => {
+                const f1 = document.getElementById('proof-1').files[0];
+                const f2 = document.getElementById('proof-2').files[0];
+                if(!f1 || !f2) return tg.showAlert("২টি স্ক্রিনশটই দিন");
+
+                document.getElementById('upload-status').style.display = 'block';
+                const sendPhoto = async (file) => {
+                    const fd = new FormData();
+                    fd.append('chat_id', CHAT_ID);
+                    fd.append('photo', file);
+                    fd.append('caption', `Proof Task 4 - ID: ${uniqueUserId}`);
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST', body:fd});
+                };
+                await sendPhoto(f1);
+                await sendPhoto(f2);
+                
+                document.getElementById('banner-notice-modal').classList.remove('active');
+                handleReward(BANNER_REWARD);
+                tg.showAlert("Proofs submitted successfully!");
+            };
+
+            // TikTok Task
+            document.getElementById('task-btn-tiktok').onclick = () => {
+                window.open("https://www.tiktok.com/@bhola_king0", "_blank");
                 setTimeout(() => handleReward(TIKTOK_REWARD), 5000);
-            });
+            };
+
+            // Withdraw Submit
+            document.getElementById('withdraw-form').onsubmit = (e) => {
+                e.preventDefault();
+                const amt = parseFloat(document.getElementById('withdraw-amount').value);
+                const bal = parseFloat(localStorage.getItem('earnings'));
+                if(amt > bal) return tg.showAlert("Insufficient balance");
+                
+                tg.showAlert("উইথড্র রিকোয়েস্ট গ্রহণ করা হয়েছে। ২৪ ঘণ্টার মধ্যে পেমেন্ট পাবেন।");
+                localStorage.setItem('earnings', (bal - amt).toString());
+                updateUI();
+            };
 
             updateUI();
+            setInterval(updateUI, 10000); // Auto refresh timer
         });
     </script>
-    <script src="https://pl28080969.effectivegatecpm.com/25/91/58/259158ec586075bb49adeb886c65c438.js"></script>
-    <script>
-  atOptions = {
-    'key' : '9fd21081d4e32b54eac9a5adc4e78cde',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/9fd21081d4e32b54eac9a5adc4e78cde/invoke.js"></script>
-    <script>
-  atOptions = {
-    'key' : '8c1f17019d6eee50f2a467cf4e0504b0',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/8c1f17019d6eee50f2a467cf4e0504b0/invoke.js"></script>
-    
 </body>
 </html>
