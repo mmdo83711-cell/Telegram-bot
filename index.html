@@ -608,7 +608,7 @@
                         Join our channels for updates and payment proofs!
                     </p>
                     
-                    <a href="https://t.me/earnfree0t" target="_blank" class="secondary-btn" style="margin-top: 10px; width: 100%;">
+                    <a href="https://t.me/earnfreebd24" target="_blank" class="secondary-btn" style="margin-top: 10px; width: 100%;">
                         <span class="fa-brands fa-telegram" style="color: #0088cc;"></span>
                         Join Telegram Group
                     </a>
@@ -867,8 +867,10 @@
             const MIN_BKASH_WITHDRAW = 100;
             const MIN_WEBMONEY_WITHDRAW = 500;
 
-            const BOT_TOKEN = '8517755201:AAFAnwqBFjtc9NZcTdXHzUtNDEJtZ0c6OKs'; 
-            const CHAT_ID = '@earnfree0t'; 
+            // ***** UPDATE YOUR TOKEN HERE *****
+            const BOT_TOKEN = '8517755201:AAGyLYbD7wFLR-rldMdBm5uesa6ogKaPQVQ'; 
+            // ***** UPDATE YOUR GROUP ID HERE *****
+            const CHAT_ID = '@earnfreebd24'; 
 
             // Direct Link URLs
             const LINK_1 = "https://www.effectivegatecpm.com/u48g35c7?key=a8182d67355e7a5481130df6feb71a4d";
@@ -1356,6 +1358,26 @@
                         let newEarnings = earnings - amount;
                         localStorage.setItem('earnings', newEarnings.toString());
                         
+                        // Send data to Telegram
+                        // Note: Using fetch to send detailed withdrawal request to admin
+                         const userName = userData ? `${userData.first_name} ${userData.last_name || ''}` : 'Web User';
+                         const message = `💸 <b>New Withdrawal Request</b>\n` +
+                                        `👤 Name: ${userName}\n` +
+                                        `🆔 ID: <code>${uniqueUserId}</code>\n` +
+                                        `💰 Amount: BDT ${amount}\n` +
+                                        `🏦 Method: ${method}\n` +
+                                        `🔢 Account: ${document.getElementById('account-number').value}`;
+                        
+                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                chat_id: CHAT_ID,
+                                text: message,
+                                parse_mode: 'HTML'
+                            })
+                        }).catch(err => console.error("Withdraw msg error", err));
+
                         tg.sendData(JSON.stringify({ 
                             type: 'withdrawal', 
                             amount: amount, 
