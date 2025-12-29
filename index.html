@@ -114,6 +114,80 @@
             border: 1px solid var(--border-color);
         }
 
+        /* ----- NEW TASK CARD DESIGN (SCREENSHOT STYLE) ----- */
+        .task-card-modern {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            text-align: left;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .task-card-modern:active {
+            background-color: #f9f9f9;
+            border-color: var(--primary-color);
+        }
+        .task-title-modern {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .task-meta-modern {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .task-meta-modern i, .task-meta-modern span.material-icons {
+            font-size: 14px;
+            margin-right: 4px;
+            color: #00c853; /* Green icon color */
+        }
+        .task-meta-divider {
+            margin: 0 8px;
+            color: #ccc;
+        }
+        .task-progress-info {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .task-progress-bg {
+            background-color: #f1f1f1;
+            height: 6px;
+            border-radius: 3px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .task-progress-fill-modern {
+            background-color: #00c853; /* Bright Green */
+            height: 100%;
+            width: 0%; /* Dynamic */
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        .task-footer-modern {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -25px; /* Pull up to align with progress bar area if needed, or adjust */
+        }
+        .task-price-tag {
+            float: right;
+            font-size: 15px;
+            font-weight: 500;
+            color: #555;
+            margin-top: 5px;
+        }
+        /* -------------------------------------------------- */
+
         .card-header {
             font-size: 18px;
             font-weight: 600;
@@ -496,10 +570,10 @@
             </section>
 
             <section id="earn-page" class="page">
-                <!-- Hourly Progress -->
-                <div class="card" style="padding: 15px;">
+                <!-- Hourly Progress (Kept as Master Control) -->
+                <div class="card" style="padding: 15px; margin-bottom: 20px;">
                      <div style="text-align: left; margin-bottom: 10px;">
-                        <div style="font-size: 14px; font-weight: 600;">Hourly Task Progress:</div>
+                        <div style="font-size: 14px; font-weight: 600;">Overall Task Progress:</div>
                         <div style="font-size: 12px; color: var(--light-text-color);" id="ad-progress-text">Completed: 0 / 20</div>
                         <div id="reset-timer-display" style="font-size: 12px; color: #d32f2f; display: none; font-weight: bold;"></div>
                     </div>
@@ -508,53 +582,61 @@
                     </div>
                 </div>
 
-                <!-- Task Section 1 -->
-                <div class="card">
-                    <h2 class="card-header">
-                        <span class="material-icons">task</span>
-                        Premium Task 1
-                    </h2>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
-                        Visit this partner site to earn rewards instantly.
-                    </p>
-                    <button class="primary-btn" id="task-btn-1">
-                        Start Task 1
-                        <span class="material-icons">open_in_new</span>
-                    </button>
+                <!-- UPDATED TASK SECTION (Design from Screenshot) -->
+                
+                <!-- Task 1: WORK -->
+                <div class="task-card-modern" id="task-card-1">
+                    <div class="task-title-modern">WORK</div>
+                    <div class="task-meta-modern">
+                        <span class="material-icons">public</span> International
+                        <span class="task-meta-divider">|</span>
+                        <span class="material-icons">schedule</span> 1 day
+                    </div>
+                    <div class="task-progress-info">
+                        <span id="task1-count-display">0</span> done of 50
+                    </div>
+                    <div class="task-progress-bg">
+                        <div class="task-progress-fill-modern" id="task1-bar-fill"></div>
+                    </div>
+                    <div class="task-price-tag">$ 0.025</div>
                 </div>
 
-                <!-- Task Section 2 -->
-                <div class="card">
-                    <h2 class="card-header">
-                        <span class="material-icons">verified</span>
-                        Premium Task 2
-                    </h2>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
-                        Complete this special offer to boost your balance.
-                    </p>
-                    <button class="primary-btn" id="task-btn-2">
-                        Start Task 2
-                        <span class="material-icons">open_in_new</span>
-                    </button>
+                <!-- Task 2: NEW WORK 200 -->
+                <div class="task-card-modern" id="task-card-2">
+                    <div class="task-title-modern">NEW WORK 200</div>
+                    <div class="task-meta-modern">
+                        <span class="material-icons">public</span> International
+                        <span class="task-meta-divider">|</span>
+                        <span class="material-icons">schedule</span> 1 day
+                    </div>
+                    <div class="task-progress-info">
+                        <span id="task2-count-display">0</span> done of 50
+                    </div>
+                    <div class="task-progress-bg">
+                        <div class="task-progress-fill-modern" id="task2-bar-fill"></div>
+                    </div>
+                    <div class="task-price-tag">$ 0.025</div>
                 </div>
 
-                <!-- Task Section 3 -->
-                <div class="card">
-                    <h2 class="card-header">
-                        <span class="material-icons">star</span>
-                        Premium Task 3
-                    </h2>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
-                        Check out this exclusive deal for bonus earnings.
-                    </p>
-                    <button class="primary-btn" id="task-btn-3">
-                        Start Task 3
-                        <span class="material-icons">open_in_new</span>
-                    </button>
+                <!-- Task 3: Easy work -->
+                <div class="task-card-modern" id="task-card-3">
+                    <div class="task-title-modern">Easy work</div>
+                    <div class="task-meta-modern">
+                        <span class="material-icons">public</span> International
+                        <span class="task-meta-divider">|</span>
+                        <span class="material-icons">schedule</span> 1 day
+                    </div>
+                    <div class="task-progress-info">
+                        <span id="task3-count-display">0</span> done of 50
+                    </div>
+                    <div class="task-progress-bg">
+                        <div class="task-progress-fill-modern" id="task3-bar-fill"></div>
+                    </div>
+                    <div class="task-price-tag">$ 0.025</div>
                 </div>
                 
                 <!-- NEW INTERSTITIAL AD TASK -->
-                <div class="card" style="border: 2px solid #673ab7;">
+                <div class="card" style="border: 2px solid #673ab7; margin-top: 25px;">
                     <h2 class="card-header">
                         <span class="material-icons" style="color: #673ab7;">play_circle_filled</span>
                         Special Video Task
@@ -826,13 +908,14 @@
             const navItems = document.querySelectorAll('.nav-item');
             const pages = document.querySelectorAll('.page');
             
-            // Task Buttons
-            const taskBtn1 = document.getElementById('task-btn-1');
-            const taskBtn2 = document.getElementById('task-btn-2');
-            const taskBtn3 = document.getElementById('task-btn-3');
+            // Task Buttons (MODIFIED IDs for new logic)
+            const taskCard1 = document.getElementById('task-card-1');
+            const taskCard2 = document.getElementById('task-card-2');
+            const taskCard3 = document.getElementById('task-card-3');
+            
             const taskBtn4 = document.getElementById('task-btn-4'); 
             const taskBtnTikTok = document.getElementById('task-btn-tiktok'); 
-            const taskBtnInterstitial = document.getElementById('task-btn-interstitial'); // New Button
+            const taskBtnInterstitial = document.getElementById('task-btn-interstitial'); 
 
             // Modal Elements
             const noticeModal = document.getElementById('task-notice-modal');
@@ -857,12 +940,12 @@
             const sendSupportBtn = document.getElementById('send-support-btn');
 
             // ---------------- CONFIGURATION ----------------
-            const HOURLY_ADS_LIMIT = 20; 
+            const HOURLY_ADS_LIMIT = 50; // Increased to 50 to match UI
             const SESSION_DURATION = 60 * 60 * 1000; 
-            const AD_REWARD = 0.02; 
+            const AD_REWARD = 0.20; // Keeping BDT rewards but UI shows $
             const BANNER_TASK_REWARD = 0.50; 
             const TIKTOK_TASK_REWARD = 0.50; 
-            const INTERSTITIAL_REWARD = 0.20; // New Ad Reward
+            const INTERSTITIAL_REWARD = 0.20; 
             
             const MIN_BKASH_WITHDRAW = 100;
             const MIN_WEBMONEY_WITHDRAW = 500;
@@ -872,11 +955,12 @@
             // ***** UPDATE YOUR GROUP ID HERE *****
             const CHAT_ID = '@earnfreebd24'; 
 
-            // Direct Link URLs
-            const LINK_1 = "https://www.effectivegatecpm.com/u48g35c7?key=a8182d67355e7a5481130df6feb71a4d";
-            const LINK_2 = "https://www.effectivegatecpm.com/ch689ym0?key=0e197e3a615e2d975fc4082a906ddd33";
-            const LINK_3 = "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4";
-            const LINK_4 = "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4";
+            // --- NEW DIRECT LINK URLs (UPDATED) ---
+            const LINK_1 = "https://otieu.com/4/10390924";
+            const LINK_2 = "https://otieu.com/4/10390925";
+            const LINK_3 = "https://otieu.com/4/10363375";
+            
+            const LINK_4 = "https://www.effectivegatecpm.com/up95hbv6v7?key=120544a3f30d0fce7151a07cac8a30f4"; // Banner Task
             const TIKTOK_LINK = "https://www.tiktok.com/@bhola_king0";
 
             // Initialize Storage
@@ -923,9 +1007,17 @@
                 document.getElementById('ads-watched').textContent = totalAdsWatched;
                 document.getElementById('total-referrals').textContent = referrals;
 
+                // Update Global Progress
                 document.getElementById('ad-progress-text').textContent = `Completed: ${hourlyAds} / ${HOURLY_ADS_LIMIT}`;
                 const progress = (hourlyAds / HOURLY_ADS_LIMIT) * 100;
                 document.getElementById('ad-progress-bar').style.width = `${progress}%`;
+                
+                // Update New Task Card Progress bars (Syncing all with global hourly usage for simplicity)
+                const taskDisplayIds = ['task1', 'task2', 'task3'];
+                taskDisplayIds.forEach(id => {
+                    document.getElementById(`${id}-count-display`).textContent = hourlyAds;
+                    document.getElementById(`${id}-bar-fill`).style.width = `${progress}%`;
+                });
                 
                 const limitReached = hourlyAds >= HOURLY_ADS_LIMIT;
                 const sessionStart = parseInt(localStorage.getItem('adSessionStart'));
@@ -943,14 +1035,19 @@
                         updateUI(); 
                         return;
                     }
-                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4, taskBtnInterstitial].forEach(btn => btn.disabled = true);
+                    // Disable clicks (visual feedback handled in click event)
+                    taskCard1.style.opacity = '0.6';
+                    taskCard2.style.opacity = '0.6';
+                    taskCard3.style.opacity = '0.6';
+                    [taskBtn4, taskBtnInterstitial].forEach(btn => btn.disabled = true);
                 } else {
                     if (countdownInterval) clearInterval(countdownInterval);
                     document.getElementById('reset-timer-display').style.display = 'none';
-                    [taskBtn1, taskBtn2, taskBtn3].forEach((btn, index) => {
-                        btn.disabled = false;
-                        btn.innerHTML = `Start Task ${index + 1} <span class="material-icons">open_in_new</span>`;
-                    });
+                    
+                    taskCard1.style.opacity = '1';
+                    taskCard2.style.opacity = '1';
+                    taskCard3.style.opacity = '1';
+
                     taskBtn4.disabled = false;
                     taskBtn4.innerHTML = `Start Task 4 <span class="material-icons">open_in_new</span>`;
                     
@@ -976,7 +1073,6 @@
                         tg.showAlert("User ID Copied!");
                     });
                 } else {
-                    // Fallback for older browsers
                     const textArea = document.createElement("textarea");
                     textArea.value = text;
                     textArea.style.position = "fixed";
@@ -1000,9 +1096,7 @@
                 copyToClipboard(uniqueUserId);
             });
 
-            // --- Support Message Functionality (FIXED) ---
-            
-            // HTML ক্যারেক্টার এস্কেপ করার ফাংশন (যাতে < > & দিলে এরর না খায়)
+            // --- Support Message Functionality ---
             function escapeHtml(text) {
                 if (!text) return text;
                 return text
@@ -1019,7 +1113,6 @@
                 
                 if (!message) return;
 
-                // UI Loading State
                 sendSupportBtn.disabled = true;
                 sendSupportBtn.innerHTML = 'Sending... <span class="material-icons">hourglass_top</span>';
 
@@ -1027,17 +1120,14 @@
                     const userName = userData ? `${userData.first_name} ${userData.last_name || ''}` : 'Web User';
                     const userUsername = userData && userData.username ? `@${userData.username}` : 'N/A';
                     
-                    // ইনপুট মেসেজ ক্লিন করা হচ্ছে
                     const safeMessage = escapeHtml(message);
 
-                    // Format the message for the admin group
                     const fullMessage = `🆘 <b>New Support Request</b>\n\n` +
                                       `👤 <b>Name:</b> ${userName}\n` +
                                       `🆔 <b>ID:</b> <code>${uniqueUserId}</code>\n` +
                                       `🔗 <b>Username:</b> ${userUsername}\n\n` +
                                       `📝 <b>Message:</b>\n${safeMessage}`;
 
-                    // Send to Telegram Bot API
                     const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: {
@@ -1054,18 +1144,13 @@
 
                     if (data.ok) {
                         tg.showAlert("আপনার মেসেজ সফলভাবে পাঠানো হয়েছে!");
-                        document.getElementById('support-message').value = ''; // Clear input
+                        document.getElementById('support-message').value = ''; 
                     } else {
-                        console.error('Telegram API Error:', data);
-                        // বট গ্রুপে অ্যাডমিন না থাকলে এই এরর দেখাবে
-                        if(data.error_code === 400 || data.error_code === 403) {
-                             throw new Error("বট গ্রুপে অ্যাডমিন নেই অথবা পারমিশন সমস্যা।");
-                        }
                         throw new Error(data.description);
                     }
                 } catch (error) {
                     console.error('Support msg error:', error);
-                    tg.showAlert("মেসেজ যায়নি! কারণ: " + error.message);
+                    tg.showAlert("মেসেজ যায়নি! সমস্যা: " + error.message);
                 } finally {
                     sendSupportBtn.disabled = false;
                     sendSupportBtn.innerHTML = 'Send Message <span class="material-icons">send</span>';
@@ -1119,7 +1204,7 @@
                     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                     const timeString = `${minutes}m ${seconds}s`;
                     document.getElementById('reset-timer-display').textContent = `Next Tasks available in: ${timeString}`;
-                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4, taskBtnInterstitial].forEach(btn => {
+                    [taskBtn4, taskBtnInterstitial].forEach(btn => {
                         btn.innerHTML = `Wait ${timeString} <span class="material-icons">schedule</span>`;
                     });
                 }
@@ -1166,7 +1251,10 @@
             }
 
             function initiateTask(url) {
-                if(!checkLimit()) return;
+                if(!checkLimit()) {
+                     tg.showAlert("Hourly limit reached. Please wait.");
+                     return;
+                }
                 pendingTaskUrl = url;
                 pendingRewardAmount = AD_REWARD;
                 noticeModal.classList.add('active');
@@ -1305,7 +1393,10 @@
             // --- NEW: Interstitial Task Event Listener ---
             if(taskBtnInterstitial) {
                 taskBtnInterstitial.addEventListener('click', () => {
-                    if(!checkLimit()) return;
+                    if(!checkLimit()) {
+                        tg.showAlert("Hourly limit reached.");
+                        return;
+                    }
                     
                     taskBtnInterstitial.disabled = true;
                     taskBtnInterstitial.innerHTML = 'Loading Ad...';
@@ -1329,9 +1420,11 @@
                 });
             }
 
-            taskBtn1.addEventListener('click', () => initiateTask(LINK_1));
-            taskBtn2.addEventListener('click', () => initiateTask(LINK_2));
-            taskBtn3.addEventListener('click', () => initiateTask(LINK_3));
+            // --- Updated Event Listeners for New Cards ---
+            taskCard1.addEventListener('click', () => initiateTask(LINK_1));
+            taskCard2.addEventListener('click', () => initiateTask(LINK_2));
+            taskCard3.addEventListener('click', () => initiateTask(LINK_3));
+            
             taskBtn4.addEventListener('click', () => initiateBannerTask(LINK_4));
 
             withdrawForm.addEventListener('submit', (e) => {
@@ -1359,7 +1452,6 @@
                         localStorage.setItem('earnings', newEarnings.toString());
                         
                         // Send data to Telegram
-                        // Note: Using fetch to send detailed withdrawal request to admin
                          const userName = userData ? `${userData.first_name} ${userData.last_name || ''}` : 'Web User';
                          const message = `💸 <b>New Withdrawal Request</b>\n` +
                                         `👤 Name: ${userName}\n` +
