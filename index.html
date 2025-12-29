@@ -16,6 +16,9 @@
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+    <!-- NEW AD SCRIPT ADDED HERE -->
+    <script src='//libtl.com/sdk.js' data-zone='10347382' data-sdk='show_10347382'></script>
+
     <style>
         :root {
             --primary-color: #007bff;
@@ -549,6 +552,21 @@
                         <span class="material-icons">open_in_new</span>
                     </button>
                 </div>
+                
+                <!-- NEW INTERSTITIAL AD TASK -->
+                <div class="card" style="border: 2px solid #673ab7;">
+                    <h2 class="card-header">
+                        <span class="material-icons" style="color: #673ab7;">play_circle_filled</span>
+                        Special Video Task
+                    </h2>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                        Watch the full ad to earn extra bonus!
+                    </p>
+                    <button class="primary-btn" id="task-btn-interstitial" style="background-color: #673ab7;">
+                        Watch Ad
+                        <span class="material-icons">play_arrow</span>
+                    </button>
+                </div>
 
                 <!-- Task Section 4 (Existing) -->
                 <div class="card" style="border: 2px solid var(--secondary-color);">
@@ -814,6 +832,7 @@
             const taskBtn3 = document.getElementById('task-btn-3');
             const taskBtn4 = document.getElementById('task-btn-4'); 
             const taskBtnTikTok = document.getElementById('task-btn-tiktok'); 
+            const taskBtnInterstitial = document.getElementById('task-btn-interstitial'); // New Button
 
             // Modal Elements
             const noticeModal = document.getElementById('task-notice-modal');
@@ -843,6 +862,7 @@
             const AD_REWARD = 0.02; 
             const BANNER_TASK_REWARD = 0.50; 
             const TIKTOK_TASK_REWARD = 0.50; 
+            const INTERSTITIAL_REWARD = 0.20; // New Ad Reward
             
             const MIN_BKASH_WITHDRAW = 100;
             const MIN_WEBMONEY_WITHDRAW = 500;
@@ -921,7 +941,7 @@
                         updateUI(); 
                         return;
                     }
-                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4].forEach(btn => btn.disabled = true);
+                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4, taskBtnInterstitial].forEach(btn => btn.disabled = true);
                 } else {
                     if (countdownInterval) clearInterval(countdownInterval);
                     document.getElementById('reset-timer-display').style.display = 'none';
@@ -931,6 +951,11 @@
                     });
                     taskBtn4.disabled = false;
                     taskBtn4.innerHTML = `Start Task 4 <span class="material-icons">open_in_new</span>`;
+                    
+                    if(taskBtnInterstitial) {
+                        taskBtnInterstitial.disabled = false;
+                        taskBtnInterstitial.innerHTML = `Watch Ad <span class="material-icons">play_arrow</span>`;
+                    }
                 }
 
                 document.getElementById('withdraw-balance-display').textContent = `BDT ${formattedEarnings}`;
@@ -1072,7 +1097,7 @@
                     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                     const timeString = `${minutes}m ${seconds}s`;
                     document.getElementById('reset-timer-display').textContent = `Next Tasks available in: ${timeString}`;
-                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4].forEach(btn => {
+                    [taskBtn1, taskBtn2, taskBtn3, taskBtn4, taskBtnInterstitial].forEach(btn => {
                         btn.innerHTML = `Wait ${timeString} <span class="material-icons">schedule</span>`;
                     });
                 }
@@ -1254,6 +1279,33 @@
                     }, 5000); 
                 }
             });
+            
+            // --- NEW: Interstitial Task Event Listener ---
+            if(taskBtnInterstitial) {
+                taskBtnInterstitial.addEventListener('click', () => {
+                    if(!checkLimit()) return;
+                    
+                    taskBtnInterstitial.disabled = true;
+                    taskBtnInterstitial.innerHTML = 'Loading Ad...';
+                    
+                    if (typeof show_10347382 === 'function') {
+                        show_10347382().then(() => {
+                            // Reward user
+                            handleReward(INTERSTITIAL_REWARD);
+                        }).catch(err => {
+                            console.error("Ad Error:", err);
+                            tg.showAlert("Ad load failed or closed early. Please try again.");
+                        }).finally(() => {
+                            taskBtnInterstitial.disabled = false;
+                            taskBtnInterstitial.innerHTML = `Watch Ad <span class="material-icons">play_arrow</span>`;
+                        });
+                    } else {
+                        tg.showAlert("Ad System not ready yet. Check internet connection.");
+                        taskBtnInterstitial.disabled = false;
+                        taskBtnInterstitial.innerHTML = `Watch Ad <span class="material-icons">play_arrow</span>`;
+                    }
+                });
+            }
 
             taskBtn1.addEventListener('click', () => initiateTask(LINK_1));
             taskBtn2.addEventListener('click', () => initiateTask(LINK_2));
